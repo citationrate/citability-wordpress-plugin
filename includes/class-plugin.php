@@ -20,7 +20,7 @@ final class Plugin {
 		Json_Ld_Wizard::register();
 
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'enqueue_editor_assets' ) );
-		add_action( 'wp_head', array( __CLASS__, 'render_jsonld' ), 20 );
+		add_action( 'wp_head', array( __CLASS__, 'render_jsonld' ), 5 );
 	}
 
 	public static function activate() {
