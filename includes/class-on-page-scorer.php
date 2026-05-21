@@ -22,6 +22,33 @@ class On_Page_Scorer {
 		'reputation'  => array( 'P52' ),
 	);
 
+	/**
+	 * Label user-facing per ogni controllo. I codici interni (P1, P2…) non
+	 * devono mai essere esposti nell'UI: usiamo invece nomi descrittivi.
+	 */
+	public static function labels() {
+		return array(
+			'P1'  => __( 'Lunghezza titolo', 'citability-score' ),
+			'P2'  => __( 'Meta description', 'citability-score' ),
+			'P3'  => __( 'Struttura del titolo H1', 'citability-score' ),
+			'P4'  => __( 'Gerarchia degli heading', 'citability-score' ),
+			'P5'  => __( 'Parola chiave nel titolo', 'citability-score' ),
+			'P12' => __( 'Autore visibile', 'citability-score' ),
+			'P13' => __( 'Data di pubblicazione', 'citability-score' ),
+			'P14' => __( 'Bio autore', 'citability-score' ),
+			'P15' => __( 'Schema Organization', 'citability-score' ),
+			'P30' => __( 'Lunghezza del contenuto', 'citability-score' ),
+			'P31' => __( 'Leggibilità', 'citability-score' ),
+			'P32' => __( 'Link interni', 'citability-score' ),
+			'P33' => __( 'Link a fonti esterne', 'citability-score' ),
+			'P34' => __( 'Descrizioni delle immagini', 'citability-score' ),
+			'P35' => __( 'Sezione domande e risposte', 'citability-score' ),
+			'P40' => __( 'Connessione sicura', 'citability-score' ),
+			'P41' => __( 'URL canonico', 'citability-score' ),
+			'P52' => __( 'Citazioni di fonti', 'citability-score' ),
+		);
+	}
+
 	public static function score_post( $post_id ) {
 		$post = get_post( $post_id );
 		if ( ! $post ) {
@@ -78,7 +105,6 @@ class On_Page_Scorer {
 			'score'       => $score,
 			'band'        => self::band( $score ),
 			'macros'      => $macro_scores,
-			'parameters'  => $results,
 			'suggestions' => self::build_suggestions( $results ),
 			'meta'        => array(
 				'post_id'     => (int) $post_id,
@@ -460,13 +486,14 @@ class On_Page_Scorer {
 	}
 
 	private static function build_suggestions( $results ) {
-		$out = array();
+		$labels = self::labels();
+		$out    = array();
 		foreach ( $results as $pid => $r ) {
 			if ( null === $r['value'] || $r['value'] >= 2 ) {
 				continue;
 			}
 			$out[] = array(
-				'pid'      => $pid,
+				'label'    => isset( $labels[ $pid ] ) ? $labels[ $pid ] : __( 'Controllo', 'citability-score' ),
 				'severity' => 0 === $r['value'] ? 'high' : 'medium',
 				'message'  => $r['reason'],
 			);

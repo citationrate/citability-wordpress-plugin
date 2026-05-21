@@ -172,7 +172,7 @@
 							el(
 								'div',
 								{ key: i, className: `citability-suggestion ${ s.severity }` },
-								el( 'strong', null, s.pid + ' · ' ),
+								el( 'strong', null, s.label + ' · ' ),
 								s.message
 							)
 						)
