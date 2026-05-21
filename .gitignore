@@ -1,0 +1,10 @@
+node_modules/
+vendor/
+.DS_Store
+*.log
+.idea/
+.vscode/
+build/
+dist/
+*.zip
+.wp-org/screenshots/raw/
