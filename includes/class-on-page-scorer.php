@@ -15,9 +15,9 @@ defined( 'ABSPATH' ) || exit;
 class On_Page_Scorer {
 
 	const MACROS = array(
-		'coherence'   => array( 'P1', 'P2', 'P3', 'P4', 'P5' ),
-		'identity'    => array( 'P12', 'P13', 'P14', 'P15' ),
-		'content'     => array( 'P30', 'P31', 'P32', 'P33', 'P34', 'P35' ),
+		'coherence'   => array( 'P1', 'P2', 'P3', 'P4', 'P5', 'L3', 'L4', 'L5', 'L8' ),
+		'identity'    => array( 'P12', 'P13', 'P14', 'P15', 'L1', 'L2', 'L6', 'L7' ),
+		'content'     => array( 'P30', 'P31', 'P32', 'P33', 'P34', 'P35', 'L9', 'L10', 'L11', 'L12', 'L13', 'L14', 'L15' ),
 		'performance' => array( 'P40', 'P41' ),
 		'reputation'  => array( 'P52' ),
 	);
@@ -46,6 +46,21 @@ class On_Page_Scorer {
 			'P40' => __( 'Connessione sicura', 'citability-score' ),
 			'P41' => __( 'URL canonico', 'citability-score' ),
 			'P52' => __( 'Citazioni di fonti', 'citability-score' ),
+			'L1'  => __( 'Tag Open Graph', 'citability-score' ),
+			'L2'  => __( 'Twitter Card', 'citability-score' ),
+			'L3'  => __( 'Lingua del sito', 'citability-score' ),
+			'L4'  => __( 'Indicizzazione', 'citability-score' ),
+			'L5'  => __( 'Versione multilingua', 'citability-score' ),
+			'L6'  => __( 'Markup Article completo', 'citability-score' ),
+			'L7'  => __( 'Profilo autore esterno', 'citability-score' ),
+			'L8'  => __( 'Indice navigabile', 'citability-score' ),
+			'L9'  => __( 'Apertura del contenuto', 'citability-score' ),
+			'L10' => __( 'Elenchi e bullet', 'citability-score' ),
+			'L11' => __( 'Dimensioni delle immagini', 'citability-score' ),
+			'L12' => __( 'Forma passiva', 'citability-score' ),
+			'L13' => __( 'Lunghezza delle frasi', 'citability-score' ),
+			'L14' => __( 'Anno corrente nel testo', 'citability-score' ),
+			'L15' => __( 'Lunghezza dei paragrafi', 'citability-score' ),
 		);
 	}
 
@@ -76,6 +91,21 @@ class On_Page_Scorer {
 			'P40' => self::check_https( $context ),
 			'P41' => self::check_canonical( $context ),
 			'P52' => self::check_citations( $context ),
+			'L1'  => self::check_open_graph( $context ),
+			'L2'  => self::check_twitter_card( $context ),
+			'L3'  => self::check_html_lang( $context ),
+			'L4'  => self::check_robots_indexable( $context ),
+			'L5'  => self::check_hreflang( $context ),
+			'L6'  => self::check_article_schema_complete( $context ),
+			'L7'  => self::check_author_external_profile( $context ),
+			'L8'  => self::check_toc( $context ),
+			'L9'  => self::check_first_paragraph( $context ),
+			'L10' => self::check_lists( $context ),
+			'L11' => self::check_image_dimensions( $context ),
+			'L12' => self::check_passive_voice( $context ),
+			'L13' => self::check_sentence_length( $context ),
+			'L14' => self::check_current_year_mention( $context ),
+			'L15' => self::check_paragraph_length( $context ),
 		);
 
 		$macro_scores = array();
@@ -461,6 +491,293 @@ class On_Page_Scorer {
 			return self::pass( 1, __( 'Citazioni deboli: aggiungi attribuzioni esplicite a fonti autorevoli.', 'citability-score' ) );
 		}
 		return self::pass( 0, __( 'Nessuna citazione esplicita: gli LLM cercano contenuti verificabili.', 'citability-score' ) );
+	}
+
+	// ===== L1 — Open Graph (proxy: SEO plugin attivo + featured image). =====
+	private static function check_open_graph( $ctx ) {
+		$has_seo  = self::has_seo_plugin();
+		$has_thumb = has_post_thumbnail( $ctx['post']->ID );
+		if ( $has_seo && $has_thumb ) {
+			return self::pass( 2, __( 'Open Graph generato da un plugin SEO e immagine in evidenza impostata.', 'citability-score' ) );
+		}
+		if ( $has_seo || $has_thumb ) {
+			return self::pass( 1, __( 'Open Graph parziale: serve sia un plugin SEO sia un\'immagine in evidenza.', 'citability-score' ) );
+		}
+		return self::pass( 0, __( 'Nessun Open Graph: i contenuti condivisi non avranno anteprime ricche.', 'citability-score' ) );
+	}
+
+	// ===== L2 — Twitter Card (proxy: plugin SEO attivo). =====
+	private static function check_twitter_card( $ctx ) {
+		if ( self::has_seo_plugin() ) {
+			return has_post_thumbnail( $ctx['post']->ID )
+				? self::pass( 2, __( 'Twitter Card generata dal plugin SEO con immagine.', 'citability-score' ) )
+				: self::pass( 1, __( 'Twitter Card senza immagine: imposta un\'immagine in evidenza.', 'citability-score' ) );
+		}
+		return self::pass( 0, __( 'Nessun plugin SEO rilevato: la Twitter Card non viene generata.', 'citability-score' ) );
+	}
+
+	// ===== L3 — Html lang attribute. =====
+	private static function check_html_lang( $ctx ) {
+		$lang = get_bloginfo( 'language' );
+		if ( ! empty( $lang ) ) {
+			return self::pass( 2, sprintf( __( 'Lingua del sito impostata su %s.', 'citability-score' ), $lang ) );
+		}
+		return self::pass( 0, __( 'Lingua del sito non impostata: i motori AI non riconoscono il linguaggio del contenuto.', 'citability-score' ) );
+	}
+
+	// ===== L4 — Robots indexable. =====
+	private static function check_robots_indexable( $ctx ) {
+		$post_id = $ctx['post']->ID;
+		$yoast_noindex = get_post_meta( $post_id, '_yoast_wpseo_meta-robots-noindex', true );
+		if ( '1' === (string) $yoast_noindex ) {
+			return self::pass( 0, __( 'Post marcato come noindex (Yoast): non sarà indicizzato.', 'citability-score' ) );
+		}
+		$rm_robots = get_post_meta( $post_id, 'rank_math_robots', true );
+		if ( is_array( $rm_robots ) && in_array( 'noindex', $rm_robots, true ) ) {
+			return self::pass( 0, __( 'Post marcato come noindex (RankMath): non sarà indicizzato.', 'citability-score' ) );
+		}
+		if ( 'publish' !== $ctx['post']->post_status ) {
+			return self::pass( 1, __( 'Post ancora in bozza: nessun motore lo indicizzerà finché non è pubblicato.', 'citability-score' ) );
+		}
+		return self::pass( 2, __( 'Post indicizzabile dai motori di ricerca.', 'citability-score' ) );
+	}
+
+	// ===== L5 — Hreflang / sito multilingua. =====
+	private static function check_hreflang( $ctx ) {
+		if ( self::has_multilang_plugin() ) {
+			return self::pass( 2, __( 'Plugin multilingua attivo: hreflang vengono generati automaticamente.', 'citability-score' ) );
+		}
+		// Controllo neutrale: se il sito è monolingua, è OK (non penalizzante).
+		return self::pass( null, __( 'Sito monolingua: hreflang non necessari.', 'citability-score' ) );
+	}
+
+	// ===== L6 — Article schema completo (author + publisher + image). =====
+	private static function check_article_schema_complete( $ctx ) {
+		$article_types = array( 'Article', 'BlogPosting', 'NewsArticle' );
+		foreach ( $ctx['jsonld_blocks'] as $b ) {
+			$types = self::extract_types( $b );
+			if ( count( array_intersect( $types, $article_types ) ) === 0 ) {
+				continue;
+			}
+			$has_author    = ! empty( $b['author'] );
+			$has_publisher = ! empty( $b['publisher'] );
+			$has_image     = ! empty( $b['image'] );
+			$filled        = (int) $has_author + (int) $has_publisher + (int) $has_image;
+			if ( 3 === $filled ) {
+				return self::pass( 2, __( 'Markup Article completo (autore, publisher, immagine).', 'citability-score' ) );
+			}
+			if ( $filled >= 1 ) {
+				return self::pass( 1, __( 'Markup Article parziale: completa autore, publisher e immagine.', 'citability-score' ) );
+			}
+			return self::pass( 0, __( 'Markup Article presente ma senza autore, publisher o immagine.', 'citability-score' ) );
+		}
+		return self::pass( 0, __( 'Nessun markup Article salvato: usa il wizard JSON-LD.', 'citability-score' ) );
+	}
+
+	// ===== L7 — Author external profile (sito web utente WP). =====
+	private static function check_author_external_profile( $ctx ) {
+		if ( ! $ctx['author'] ) {
+			return self::pass( 0, __( 'Autore non rilevato.', 'citability-score' ) );
+		}
+		$url = trim( (string) $ctx['author']->user_url );
+		if ( '' === $url ) {
+			return self::pass( 0, __( 'Profilo autore senza sito web: aggiungi un URL nelle impostazioni utente per rafforzare E-E-A-T.', 'citability-score' ) );
+		}
+		// Valutiamo se è un dominio diverso da quello del sito (più utile per E-E-A-T).
+		$host = wp_parse_url( $url, PHP_URL_HOST );
+		if ( $host && $host !== $ctx['home_host'] ) {
+			return self::pass( 2, sprintf( __( 'Profilo autore collegato a %s.', 'citability-score' ), $host ) );
+		}
+		return self::pass( 1, __( 'Profilo autore collegato allo stesso sito: meglio un profilo esterno (LinkedIn, sito personale).', 'citability-score' ) );
+	}
+
+	// ===== L8 — Indice navigabile (heuristic: se molti H2 servirebbe un TOC). =====
+	private static function check_toc( $ctx ) {
+		if ( ! $ctx['dom'] ) {
+			return self::pass( null, __( 'Contenuto vuoto.', 'citability-score' ) );
+		}
+		$h2 = $ctx['dom']->getElementsByTagName( 'h2' )->length;
+		if ( $h2 < 3 ) {
+			return self::pass( null, __( 'Articolo breve: l\'indice non è necessario.', 'citability-score' ) );
+		}
+		$content = $ctx['content_raw'];
+		$has_toc = false !== stripos( $content, 'wp-block-table-of-contents' )
+			|| false !== stripos( $content, '[toc' )
+			|| false !== stripos( $content, 'wp-block-rank-math-toc' )
+			|| false !== stripos( $content, 'class="ez-toc' );
+		if ( $has_toc ) {
+			return self::pass( 2, sprintf( __( 'Indice navigabile presente con %d sezioni.', 'citability-score' ), $h2 ) );
+		}
+		return self::pass( 0, sprintf( __( '%d sezioni H2 ma nessun indice: aggiungi un Table of Contents.', 'citability-score' ), $h2 ) );
+	}
+
+	// ===== L9 — Apertura del contenuto (primo paragrafo informativo). =====
+	private static function check_first_paragraph( $ctx ) {
+		if ( ! $ctx['dom'] ) {
+			return self::pass( 0, __( 'Contenuto vuoto: aggiungi un\'apertura.', 'citability-score' ) );
+		}
+		$first_p = null;
+		foreach ( $ctx['dom']->getElementsByTagName( 'p' ) as $p ) {
+			$txt = trim( $p->textContent );
+			if ( '' !== $txt ) {
+				$first_p = $txt;
+				break;
+			}
+		}
+		if ( null === $first_p ) {
+			return self::pass( 0, __( 'Nessun paragrafo trovato.', 'citability-score' ) );
+		}
+		$len = mb_strlen( $first_p );
+		if ( $len < 80 ) {
+			return self::pass( 0, sprintf( __( 'Apertura troppo corta (%d caratteri): inizia con un riassunto chiaro.', 'citability-score' ), $len ) );
+		}
+		if ( $len > 400 ) {
+			return self::pass( 1, sprintf( __( 'Apertura molto lunga (%d caratteri): riducila a 1-2 frasi dense.', 'citability-score' ), $len ) );
+		}
+		// Se c'è una focus keyword, controlliamo che sia nel primo paragrafo.
+		if ( ! empty( $ctx['focus_kw'] ) && false === mb_stripos( $first_p, $ctx['focus_kw'] ) ) {
+			return self::pass( 1, __( 'L\'apertura non contiene la parola chiave principale.', 'citability-score' ) );
+		}
+		return self::pass( 2, __( 'Apertura informativa e di lunghezza adatta.', 'citability-score' ) );
+	}
+
+	// ===== L10 — Elenchi e bullet. =====
+	private static function check_lists( $ctx ) {
+		if ( ! $ctx['dom'] || $ctx['word_count'] < 300 ) {
+			return self::pass( null, __( 'Articolo breve: gli elenchi non sono necessari.', 'citability-score' ) );
+		}
+		$ul = $ctx['dom']->getElementsByTagName( 'ul' )->length;
+		$ol = $ctx['dom']->getElementsByTagName( 'ol' )->length;
+		$lists = $ul + $ol;
+		if ( $lists >= 2 ) {
+			return self::pass( 2, sprintf( __( 'Buon uso di elenchi: %d liste presenti.', 'citability-score' ), $lists ) );
+		}
+		if ( 1 === $lists ) {
+			return self::pass( 1, __( 'Una sola lista: aggiungine un\'altra per rendere il contenuto più scansionabile.', 'citability-score' ) );
+		}
+		return self::pass( 0, __( 'Nessun elenco puntato/numerato: gli LLM preferiscono contenuti strutturati.', 'citability-score' ) );
+	}
+
+	// ===== L11 — Immagini con dimensioni esplicite (CLS-friendly). =====
+	private static function check_image_dimensions( $ctx ) {
+		if ( ! $ctx['dom'] ) {
+			return self::pass( null, __( 'Nessuna immagine nel contenuto.', 'citability-score' ) );
+		}
+		$imgs = $ctx['dom']->getElementsByTagName( 'img' );
+		if ( $imgs->length === 0 ) {
+			return self::pass( null, __( 'Nessuna immagine nel contenuto.', 'citability-score' ) );
+		}
+		$missing = 0;
+		foreach ( $imgs as $img ) {
+			$w = $img->getAttribute( 'width' );
+			$h = $img->getAttribute( 'height' );
+			if ( '' === $w || '' === $h ) {
+				++$missing;
+			}
+		}
+		if ( 0 === $missing ) {
+			return self::pass( 2, sprintf( __( 'Tutte le %d immagini hanno dimensioni esplicite.', 'citability-score' ), $imgs->length ) );
+		}
+		$ratio = 1 - ( $missing / $imgs->length );
+		if ( $ratio >= 0.6 ) {
+			return self::pass( 1, sprintf( __( '%d immagini su %d senza dimensioni: completa il resto.', 'citability-score' ), $missing, $imgs->length ) );
+		}
+		return self::pass( 0, sprintf( __( '%d immagini su %d senza dimensioni: peggiorano l\'esperienza visiva.', 'citability-score' ), $missing, $imgs->length ) );
+	}
+
+	// ===== L12 — Forma passiva (italiano, euristico). =====
+	private static function check_passive_voice( $ctx ) {
+		$text = $ctx['content_text'];
+		if ( strlen( $text ) < 200 ) {
+			return self::pass( null, __( 'Testo troppo corto per analizzare la forma passiva.', 'citability-score' ) );
+		}
+		$sentences = max( 1, preg_match_all( '/[.!?]+/u', $text ) );
+		// Pattern italiano: ausiliare + participio passato (es. "è stato pubblicato", "viene utilizzato").
+		$passive = preg_match_all( '/\b(è|sono|era|erano|fu|furono|sarà|saranno|viene|vengono|veniva|venivano|venne|vennero|venuto|venuti|stato|stati|state|state)\s+[a-zàèéìòù]+(at[oiea]|ut[oiea]|it[oiea])\b/iu', $text );
+		$ratio = $passive / $sentences;
+		if ( $ratio <= 0.10 ) {
+			return self::pass( 2, sprintf( __( 'Stile diretto: solo %d%% delle frasi in forma passiva.', 'citability-score' ), round( $ratio * 100 ) ) );
+		}
+		if ( $ratio <= 0.20 ) {
+			return self::pass( 1, sprintf( __( '%d%% delle frasi in forma passiva: prova a riscriverne qualcuna in attiva.', 'citability-score' ), round( $ratio * 100 ) ) );
+		}
+		return self::pass( 0, sprintf( __( '%d%% delle frasi in forma passiva: troppe per essere citate dagli LLM.', 'citability-score' ), round( $ratio * 100 ) ) );
+	}
+
+	// ===== L13 — Lunghezza media delle frasi. =====
+	private static function check_sentence_length( $ctx ) {
+		$text = $ctx['content_text'];
+		if ( strlen( $text ) < 200 ) {
+			return self::pass( null, __( 'Testo troppo corto per misurare la lunghezza delle frasi.', 'citability-score' ) );
+		}
+		$sentences = max( 1, preg_match_all( '/[.!?]+/u', $text ) );
+		$words     = max( 1, str_word_count( $text ) );
+		$asl       = $words / $sentences;
+		if ( $asl <= 20 ) {
+			return self::pass( 2, sprintf( __( 'Frasi brevi (media %d parole): facili da citare in modo testuale.', 'citability-score' ), round( $asl ) ) );
+		}
+		if ( $asl <= 28 ) {
+			return self::pass( 1, sprintf( __( 'Frasi medie (%d parole): spezza quelle più lunghe.', 'citability-score' ), round( $asl ) ) );
+		}
+		return self::pass( 0, sprintf( __( 'Frasi troppo lunghe (%d parole): un LLM faticherà a estrarre risposte brevi.', 'citability-score' ), round( $asl ) ) );
+	}
+
+	// ===== L14 — Anno corrente nel testo (segnale di attualità). =====
+	private static function check_current_year_mention( $ctx ) {
+		$current = (int) current_time( 'Y' );
+		$previous = $current - 1;
+		$text = $ctx['content_text'];
+		if ( preg_match( '/\b' . $current . '\b/', $text ) ) {
+			return self::pass( 2, sprintf( __( 'L\'anno %d è menzionato nel testo.', 'citability-score' ), $current ) );
+		}
+		if ( preg_match( '/\b' . $previous . '\b/', $text ) ) {
+			return self::pass( 1, sprintf( __( 'Citato l\'anno %d ma non %d: aggiorna i riferimenti temporali.', 'citability-score' ), $previous, $current ) );
+		}
+		return self::pass( 0, __( 'Nessun riferimento all\'anno corrente: gli LLM penalizzano contenuti percepiti come datati.', 'citability-score' ) );
+	}
+
+	// ===== L15 — Lunghezza dei paragrafi (no muri di testo). =====
+	private static function check_paragraph_length( $ctx ) {
+		if ( ! $ctx['dom'] ) {
+			return self::pass( null, __( 'Contenuto vuoto.', 'citability-score' ) );
+		}
+		$total = 0;
+		$too_long = 0;
+		foreach ( $ctx['dom']->getElementsByTagName( 'p' ) as $p ) {
+			$len = mb_strlen( trim( $p->textContent ) );
+			if ( 0 === $len ) {
+				continue;
+			}
+			++$total;
+			if ( $len > 500 ) {
+				++$too_long;
+			}
+		}
+		if ( 0 === $total ) {
+			return self::pass( null, __( 'Nessun paragrafo nel contenuto.', 'citability-score' ) );
+		}
+		if ( 0 === $too_long ) {
+			return self::pass( 2, sprintf( __( 'Paragrafi ben dimensionati (%d totali).', 'citability-score' ), $total ) );
+		}
+		if ( $too_long <= 2 ) {
+			return self::pass( 1, sprintf( __( '%d paragrafi troppo lunghi: spezza i muri di testo.', 'citability-score' ), $too_long ) );
+		}
+		return self::pass( 0, sprintf( __( '%d paragrafi troppo lunghi: il contenuto è difficile da scansionare.', 'citability-score' ), $too_long ) );
+	}
+
+	// ===== Helper plugin detection. =====
+	private static function has_seo_plugin() {
+		return defined( 'WPSEO_VERSION' )
+			|| defined( 'RANK_MATH_VERSION' )
+			|| defined( 'AIOSEO_VERSION' )
+			|| defined( 'SEOPRESS_VERSION' );
+	}
+
+	private static function has_multilang_plugin() {
+		return defined( 'POLYLANG_VERSION' )
+			|| defined( 'ICL_SITEPRESS_VERSION' )
+			|| defined( 'TRP_PLUGIN_VERSION' )
+			|| defined( 'WEGLOT_VERSION' );
 	}
 
 	private static function extract_types( $jsonld ) {
