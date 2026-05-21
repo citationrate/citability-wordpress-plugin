@@ -1,20 +1,22 @@
-"""Generate WordPress.org banner assets from the CitationRate logo source.
+"""Generate WordPress.org icon + banner assets from the CitationRate logo source.
+
+The source logo is only 120x120, so every WP.org variant is an upscale. After
+Lanczos resampling we apply an UnsharpMask pass to recover edge sharpness on
+the white quotation marks against the sage-green background.
 
 Outputs:
+  icon-256x256.png
+  icon-128x128.png
   banner-772x250.png    (standard banner)
   banner-1544x500.png   (retina banner)
-
-Layout: solid sage-green background matching the logo, logo placed on the
-right side, white "Citability Score" headline + subtitle on the left.
 """
 
 import os
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 HERE = os.path.dirname(__file__)
 LOGO_PATH = os.path.join(HERE, "icon-source.png")
 
-# Sage green matching the source logo background (sampled at pixel (10,10)).
 src = Image.open(LOGO_PATH).convert("RGB")
 BG = src.getpixel((10, 10))
 
@@ -35,13 +37,40 @@ def find_font(size: int) -> ImageFont.FreeTypeFont:
     return ImageFont.load_default()
 
 
+def sharpen(img: Image.Image) -> Image.Image:
+    """Two-pass sharpening: gentle unsharp mask then a fine pass to crisp edges."""
+    out = img.filter(ImageFilter.UnsharpMask(radius=2.0, percent=180, threshold=2))
+    out = out.filter(ImageFilter.UnsharpMask(radius=0.8, percent=80, threshold=0))
+    return out
+
+
+def upscaled_logo(target_size: int) -> Image.Image:
+    """Stepwise upscale from 120 to target with Lanczos + sharpen at each step."""
+    img = src
+    current = img.size[0]
+    while current < target_size:
+        next_size = min(current * 2, target_size)
+        img = img.resize((next_size, next_size), Image.LANCZOS)
+        img = sharpen(img)
+        current = next_size
+    if img.size[0] != target_size:
+        img = img.resize((target_size, target_size), Image.LANCZOS)
+        img = sharpen(img)
+    return img
+
+
+def make_icon(size: int, output: str) -> None:
+    img = upscaled_logo(size)
+    img.save(output, "PNG", optimize=True)
+    print(f"wrote {output}  ({size}x{size})")
+
+
 def draw_banner(width: int, height: int, output: str) -> None:
     img = Image.new("RGB", (width, height), BG)
     draw = ImageDraw.Draw(img)
 
-    # Logo on the right, vertically centered.
     logo_size = int(height * 0.7)
-    logo = src.resize((logo_size, logo_size), Image.LANCZOS)
+    logo = upscaled_logo(logo_size)
     logo_x = width - logo_size - int(width * 0.06)
     logo_y = (height - logo_size) // 2
     img.paste(logo, (logo_x, logo_y))
@@ -67,5 +96,7 @@ def draw_banner(width: int, height: int, output: str) -> None:
     print(f"wrote {output}  ({width}x{height})")
 
 
+make_icon(256, os.path.join(HERE, "icon-256x256.png"))
+make_icon(128, os.path.join(HERE, "icon-128x128.png"))
 draw_banner(772, 250, os.path.join(HERE, "banner-772x250.png"))
 draw_banner(1544, 500, os.path.join(HERE, "banner-1544x500.png"))
