@@ -38,8 +38,33 @@ class Json_Ld_Wizard {
 		$image      = get_the_post_thumbnail_url( $post_id, 'large' );
 		$permalink  = get_permalink( $post_id );
 		$site_name  = get_bloginfo( 'name' );
-		$published  = get_post_time( 'c', true, $post );
-		$modified   = get_post_modified_time( 'c', true, $post );
+
+		// Date: get_post_time() può ritornare false su draft/auto-draft.
+		$published = get_post_time( 'c', true, $post );
+		if ( false === $published || empty( $published ) ) {
+			$published = current_time( 'c' );
+		}
+		$modified = get_post_modified_time( 'c', true, $post );
+		if ( false === $modified || empty( $modified ) ) {
+			$modified = $published;
+		}
+
+		// Headline: fallback a primo H1/H2 nel contenuto, poi placeholder data.
+		$headline = trim( (string) $post->post_title );
+		if ( '' === $headline ) {
+			$content_text = wp_strip_all_tags( (string) $post->post_content );
+			$first_line   = strtok( $content_text, "\n" );
+			$first_line   = trim( (string) $first_line );
+			if ( '' !== $first_line ) {
+				$headline = mb_substr( $first_line, 0, 110 );
+			} else {
+				$headline = sprintf(
+					/* translators: %s: data odierna */
+					__( 'Articolo del %s', 'citability-score' ),
+					date_i18n( get_option( 'date_format' ) )
+				);
+			}
+		}
 
 		$base = array(
 			'@context' => 'https://schema.org',
@@ -52,7 +77,7 @@ class Json_Ld_Wizard {
 				$base = array_merge(
 					$base,
 					array(
-						'headline'      => $post->post_title,
+						'headline'      => $headline,
 						'datePublished' => $published,
 						'dateModified'  => $modified,
 						'author'        => array(
@@ -86,11 +111,11 @@ class Json_Ld_Wizard {
 				$base = array_merge(
 					$base,
 					array(
-						'name'  => $post->post_title,
+						'name'  => $headline,
 						'step'  => array(
 							array(
 								'@type' => 'HowToStep',
-								'text'  => '',
+								'text'  => __( 'Descrivi il primo passo…', 'citability-score' ),
 							),
 						),
 					)
@@ -101,14 +126,19 @@ class Json_Ld_Wizard {
 				$base = array_merge(
 					$base,
 					array(
-						'name'              => $post->post_title,
+						'name'              => $headline,
 						'author'            => array(
 							'@type' => 'Person',
 							'name'  => $author ? $author->display_name : '',
 						),
 						'image'             => $image ? array( $image ) : array(),
-						'recipeIngredient'  => array(),
-						'recipeInstructions' => array(),
+						'recipeIngredient'  => array( __( 'Ingrediente 1', 'citability-score' ) ),
+						'recipeInstructions' => array(
+							array(
+								'@type' => 'HowToStep',
+								'text'  => __( 'Primo passo della ricetta…', 'citability-score' ),
+							),
+						),
 					)
 				);
 				break;
