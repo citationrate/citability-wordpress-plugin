@@ -4,7 +4,7 @@ Tags: ai, llm, seo, schema, json-ld, citationrate, ai overviews, chatgpt, gemini
 Requires at least: 6.0
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,10 +59,16 @@ Sì. Il plugin legge meta description e focus keyword da entrambi se installati.
 
 == Changelog ==
 
+= 0.2.0 =
+* Nuovo pannello "Citation Rate": spiega la formula (query citate ÷ query totali × 100), mostra una stima illustrativa basata sul Citability Score on-page e rimanda ad AVI per la misurazione reale.
+
 = 0.1.0 =
 * Prima release: scorer lite, JSON-LD wizard (5 schemi), Block Editor sidebar.
 
 == Upgrade Notice ==
+
+= 0.2.0 =
+Aggiunto il pannello Citation Rate con stima illustrativa e collegamento ad AVI.
 
 = 0.1.0 =
 Prima release pubblica.

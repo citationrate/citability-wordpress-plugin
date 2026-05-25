@@ -53,3 +53,41 @@
 
 .citability-meta-box { text-align: center; padding: 12px 0; }
 .citability-meta-box .citability-score { font-size: 22px; padding: 10px; border-radius: 6px; }
+
+/* Citation Rate panel — figurative projection + CTA to AVI */
+.citability-cr {
+	margin: 12px 0;
+	padding: 12px;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	background: #fafaff;
+}
+.citability-cr-title { font-size: 14px; font-weight: 700; margin: 0 0 4px; }
+.citability-cr-desc { font-size: 12px; color: #475569; margin: 0 0 10px; line-height: 1.45; }
+.citability-cr-formula {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	margin: 8px 0 12px;
+}
+.citability-cr-frac { display: flex; flex-direction: column; text-align: center; font-size: 11px; color: #334155; }
+.citability-cr-frac > span:first-child { padding-bottom: 3px; }
+.citability-cr-frac > span:last-child { padding-top: 3px; border-top: 1px solid #94a3b8; }
+.citability-cr-mult { font-size: 13px; font-weight: 600; color: #334155; }
+.citability-cr-figure { text-align: center; margin: 8px 0; }
+.citability-cr-big { font-size: 30px; font-weight: 700; color: #6366f1; line-height: 1; }
+.citability-cr-note { font-size: 11px; color: #64748b; margin: 6px 0 0; line-height: 1.45; }
+.citability-cr-cta {
+	display: block;
+	text-align: center;
+	margin-top: 10px;
+	padding: 8px 10px;
+	background: #6366f1;
+	color: #fff !important;
+	border-radius: 6px;
+	font-size: 12px;
+	font-weight: 600;
+	text-decoration: none;
+}
+.citability-cr-cta:hover { background: #4f46e5; }

@@ -180,6 +180,70 @@
 			);
 		};
 
+		const renderCitationRate = () => {
+			if ( ! result ) return null;
+			const score = Number( result.score ) || 0;
+			// Figurative model built on the real Citability Score. A linear
+			// rate = score would overstate reality (a citability of 80 does NOT
+			// mean an 80% citation rate). We dampen it with a convex curve —
+			// score² / 100 — so weak pages project a low rate and only truly
+			// citable pages approach high values (50→25%, 70→49%, 90→81%).
+			// This tracks real-world citation rates far more honestly. The true
+			// value can only be measured by querying the models, which AVI does.
+			const rate = Math.round( ( score * score ) / 100 );
+			const perTen = Math.round( rate / 10 );
+			const aviUrl =
+				'https://avi.citationrate.com/?utm_source=wp_plugin&utm_medium=widget&utm_campaign=citation_rate';
+			return el(
+				'div',
+				{ className: 'citability-cr' },
+				el( 'h3', { className: 'citability-cr-title' }, __( 'Citation Rate', 'citability-score' ) ),
+				el(
+					'p',
+					{ className: 'citability-cr-desc' },
+					__(
+						'La metrica che conta davvero nella ricerca AI: quante volte il tuo brand viene citato dai modelli quando si parla del tuo settore.',
+						'citability-score'
+					)
+				),
+				el(
+					'div',
+					{ className: 'citability-cr-formula' },
+					el(
+						'span',
+						{ className: 'citability-cr-frac' },
+						el( 'span', null, __( 'query in cui sei citato', 'citability-score' ) ),
+						el( 'span', null, __( 'query totali testate', 'citability-score' ) )
+					),
+					el( 'span', { className: 'citability-cr-mult' }, '× 100' )
+				),
+				el(
+					'div',
+					{ className: 'citability-cr-figure' },
+					el( 'div', { className: 'citability-cr-big' }, `~${ rate }%` ),
+					el(
+						'p',
+						{ className: 'citability-cr-note' },
+						__( 'Stima illustrativa derivata dal tuo Citability Score', 'citability-score' ) +
+							` (${ score }/100)` +
+							__( ': su 10 query del tuo settore verresti citato circa', 'citability-score' ) +
+							` ${ perTen }/10 ` +
+							__( 'volte. Il valore reale si misura solo interrogando i modelli AI.', 'citability-score' )
+					)
+				),
+				el(
+					'a',
+					{
+						className: 'citability-cr-cta',
+						href: aviUrl,
+						target: '_blank',
+						rel: 'noopener noreferrer',
+					},
+					__( 'Misura il tuo Citation Rate reale su AVI →', 'citability-score' )
+				)
+			);
+		};
+
 		const renderJsonldWizard = () => {
 			return el(
 				PanelBody,
@@ -222,6 +286,7 @@
 					icon: 'chart-area',
 				},
 				renderScore(),
+				renderCitationRate(),
 				renderJsonldWizard()
 			)
 		);
