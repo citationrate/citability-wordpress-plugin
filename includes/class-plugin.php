@@ -31,6 +31,17 @@ final class Plugin {
 		// no-op for now; uninstall.php handles full cleanup.
 	}
 
+	/**
+	 * Asset version = file mtime when readable, else the plugin version.
+	 * This auto-busts the browser cache on every edit (essential for local
+	 * dev in wp-now), while still giving a stable per-release version in prod.
+	 */
+	private static function asset_version( $rel_path ) {
+		$abs = CITABILITY_SCORE_PATH . $rel_path;
+		$mt  = @filemtime( $abs );
+		return $mt ? (string) $mt : CITABILITY_SCORE_VERSION;
+	}
+
 	public static function enqueue_editor_assets() {
 		$handle = 'citability-score-editor';
 		$src    = CITABILITY_SCORE_URL . 'assets/js/editor-sidebar.js';
@@ -44,14 +55,14 @@ final class Plugin {
 			'wp-i18n',
 		);
 
-		wp_enqueue_script( $handle, $src, $deps, CITABILITY_SCORE_VERSION, true );
-		wp_set_script_translations( $handle, 'citability-score' );
+		wp_enqueue_script( $handle, $src, $deps, self::asset_version( 'assets/js/editor-sidebar.js' ), true );
+		wp_set_script_translations( $handle, 'citability-score', CITABILITY_SCORE_PATH . 'languages' );
 
 		wp_enqueue_style(
 			'citability-score-editor',
 			CITABILITY_SCORE_URL . 'assets/css/widget.css',
 			array(),
-			CITABILITY_SCORE_VERSION
+			self::asset_version( 'assets/css/widget.css' )
 		);
 	}
 

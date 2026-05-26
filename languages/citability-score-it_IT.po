@@ -1,0 +1,828 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Citability Score\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it_IT\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: citability-score\n"
+
+msgid "Citability Score"
+msgstr "Citability Score"
+
+msgid "Optimize your site content to be cited by AI models (ChatGPT, Gemini, Claude, Perplexity)."
+msgstr "Ottimizza i contenuti del tuo sito per essere citati dai modelli AI (ChatGPT, Gemini, Claude, Perplexity)."
+
+msgid "CitationRate API key (optional)"
+msgstr "API key CitationRate (opzionale)"
+
+msgid "Connect a CitationRate account to unlock the full audit (50+ parameters, backlinks, real AI citation rate). Without a key the plugin runs in lite mode."
+msgstr "Collega un account CitationRate per sbloccare l'audit completo (oltre 50 parametri, backlinks, citation rate AI reale). Senza chiave il plugin funziona in modalità lite."
+
+msgid "Default JSON-LD schema"
+msgstr "Schema JSON-LD di default"
+
+msgid "Lite on-page estimate. Open the Block Editor for the full breakdown and the JSON-LD wizard."
+msgstr "Stima on-page lite. Apri il Block Editor per il breakdown completo e il wizard JSON-LD."
+
+msgid "Article of %s"
+msgstr "Articolo del %s"
+
+msgid "Invalid payload."
+msgstr "Payload non valido."
+
+msgid "Missing @type."
+msgstr "Manca @type."
+
+msgid "Unsupported type: %s"
+msgstr "Tipo non supportato: %s"
+
+msgid "Missing required fields: %s"
+msgstr "Campi obbligatori mancanti: %s"
+
+msgid "Title length"
+msgstr "Lunghezza del titolo"
+
+msgid "Short page description"
+msgstr "Descrizione breve della pagina"
+
+msgid "A single main heading"
+msgstr "Un solo titolo principale"
+
+msgid "Subheadings that split the text"
+msgstr "Sottotitoli che dividono il testo"
+
+msgid "Keyword in the title"
+msgstr "Parola chiave nel titolo"
+
+msgid "Visible author"
+msgstr "Autore in evidenza"
+
+msgid "Publication date"
+msgstr "Data di pubblicazione"
+
+msgid "Short author bio"
+msgstr "Breve biografia dell'autore"
+
+msgid "Business details for AI"
+msgstr "Dati dell'azienda per le AI"
+
+msgid "Content length"
+msgstr "Lunghezza del contenuto"
+
+msgid "Readability"
+msgstr "Facilità di lettura"
+
+msgid "Links to your other pages"
+msgstr "Collegamenti ad altre tue pagine"
+
+msgid "Links to external sources"
+msgstr "Collegamenti a fonti esterne"
+
+msgid "Image descriptions"
+msgstr "Descrizione delle immagini"
+
+msgid "Questions and answers section"
+msgstr "Sezione domande e risposte"
+
+msgid "Secure connection"
+msgstr "Connessione sicura"
+
+msgid "Official page address"
+msgstr "Indirizzo ufficiale della pagina"
+
+msgid "Sources cited in the text"
+msgstr "Fonti citate nel testo"
+
+msgid "Preview when shared on social"
+msgstr "Anteprima quando condividi sui social"
+
+msgid "Preview on X (Twitter)"
+msgstr "Anteprima su X (Twitter)"
+
+msgid "Site language"
+msgstr "Lingua del sito"
+
+msgid "Page visible to search engines"
+msgstr "Pagina visibile ai motori"
+
+msgid "Versions in other languages"
+msgstr "Versioni in altre lingue"
+
+msgid "Complete article card for AI"
+msgstr "Scheda articolo completa per le AI"
+
+msgid "Public author profile"
+msgstr "Profilo pubblico dell'autore"
+
+msgid "Table of contents"
+msgstr "Indice dei contenuti"
+
+msgid "Opening that answers right away"
+msgstr "Apertura che risponde subito"
+
+msgid "Bulleted lists"
+msgstr "Elenchi puntati"
+
+msgid "Image dimensions specified"
+msgstr "Dimensioni delle immagini indicate"
+
+msgid "Sentences in active voice"
+msgstr "Frasi in forma attiva"
+
+msgid "Short sentences"
+msgstr "Frasi brevi"
+
+msgid "Reference to the current year"
+msgstr "Riferimento all'anno attuale"
+
+msgid "Short paragraphs"
+msgstr "Paragrafi brevi"
+
+msgid "Post not found."
+msgstr "Post non trovato."
+
+msgid "Title %d characters, within the optimal range (30-65)."
+msgstr "Titolo %d caratteri, nel range ottimale (30-65)."
+
+msgid "Title %d characters, acceptable but outside the ideal range (30-65)."
+msgstr "Titolo %d caratteri, accettabile ma fuori dal range ideale (30-65)."
+
+msgid "Title %d characters: too %s."
+msgstr "Titolo %d caratteri: troppo %s."
+
+msgid "short"
+msgstr "corto"
+
+msgid "long"
+msgstr "lungo"
+
+msgid "Page description missing."
+msgstr "Meta description assente."
+
+msgid "Description %d characters, optimal length."
+msgstr "Meta description %d caratteri, nel range ottimale."
+
+msgid "Description %d characters, outside the ideal length (120-160)."
+msgstr "Meta description %d caratteri, fuori dal range ideale (120-160)."
+
+msgid "No duplicate main heading in the body."
+msgstr "Nessun H1 duplicato nel corpo."
+
+msgid "No duplicate main heading in the body (the theme provides the title)."
+msgstr "Nessun H1 duplicato nel corpo (il tema fornisce il titolo)."
+
+msgid "One main heading in the body: risk of a duplicate if the theme repeats it."
+msgstr "Un H1 nel corpo: rischio di doppio H1 se il tema lo ripete."
+
+msgid "%d main headings in the text: use subheadings for sections."
+msgstr "%d tag H1 nel corpo: usa H2/H3 per le sezioni."
+
+msgid "No headings found in the content."
+msgstr "Nessun heading rilevato nel contenuto."
+
+msgid "Good subheading structure (%d main, %d secondary)."
+msgstr "Gerarchia heading buona: %d H2, %d H3."
+
+msgid "Few subheadings: add 2-3 to structure the content."
+msgstr "Pochi heading: aggiungi 2-3 H2 per strutturare il contenuto."
+
+msgid "No subheadings: the text is one block, hard for AI to cite."
+msgstr "Nessun H2: il contenuto è un blocco unico, difficile da citare per le AI."
+
+msgid "Main keyword not set (requires Yoast or RankMath)."
+msgstr "Focus keyword non impostata (richiede Yoast o RankMath)."
+
+msgid "Main keyword present in the title."
+msgstr "Focus keyword presente nel titolo."
+
+msgid "Main keyword \"%s\" not present in the title."
+msgstr "Focus keyword \"%s\" non presente nel titolo."
+
+msgid "Author not detected."
+msgstr "Autore non rilevato."
+
+msgid "Author \"admin\": a real name builds more authority."
+msgstr "Autore \"admin\": meglio un nome reale per costruire autorevolezza."
+
+msgid "Author: %s."
+msgstr "Autore: %s."
+
+msgid "Publication date missing."
+msgstr "Data di pubblicazione assente."
+
+msgid "Different publish and update dates: a great freshness signal."
+msgstr "Pubblicazione e ultimo aggiornamento differenti: ottimo segnale di freschezza."
+
+msgid "Publication date present, no update signal."
+msgstr "Data di pubblicazione presente, manca segnale di aggiornamento."
+
+msgid "Author bio: %d characters, enough for authority."
+msgstr "Bio autore: %d caratteri, sufficiente per autorevolezza."
+
+msgid "Author bio present but too short (target ≥80 characters)."
+msgstr "Bio autore presente ma troppo breve (target ≥80 caratteri)."
+
+msgid "Author bio empty: update the WordPress user profile."
+msgstr "Bio autore vuota: aggiorna il profilo utente WordPress."
+
+msgid "Business details present (%s)."
+msgstr "Schema %s presente."
+
+msgid "Business details missing. Add them from the \"Help AI understand this page\" box."
+msgstr "Schema Organization/LocalBusiness assente. Usa il wizard JSON-LD."
+
+msgid "Optimal length: %d words."
+msgstr "Lunghezza ottimale: %d parole."
+
+msgid "Acceptable length: %d words (target ≥1200)."
+msgstr "Lunghezza accettabile: %d parole (target ≥1200)."
+
+msgid "Only %d words: content too short to be cited."
+msgstr "Solo %d parole: contenuto troppo corto per essere citato."
+
+msgid "Text too short to measure readability."
+msgstr "Testo troppo corto per calcolare leggibilità."
+
+msgid "Readability %d: easy for an AI to paraphrase."
+msgstr "Leggibilità %d: facile da parafrasare per un'AI."
+
+msgid "Readability %d: slightly complex."
+msgstr "Leggibilità %d: leggermente complesso."
+
+msgid "Readability %d: too complex."
+msgstr "Leggibilità %d: troppo complesso."
+
+msgid "%d internal links: great structure."
+msgstr "%d link interni: ottima struttura."
+
+msgid "%d internal links (target ≥3)."
+msgstr "%d link interni (target ≥3)."
+
+msgid "No internal links: related content increases citability."
+msgstr "Nessun link interno: i contenuti correlati aumentano la citabilità."
+
+msgid "%d outbound links to external sources: a good expertise signal."
+msgstr "%d link in uscita verso fonti esterne: buon segnale di competenza."
+
+msgid "1 outbound link: add at least one more authoritative source."
+msgstr "1 link in uscita: aggiungi almeno una fonte autorevole in più."
+
+msgid "No outbound links: AI rewards content that cites sources."
+msgstr "Nessun link in uscita: le AI premiano i contenuti che citano fonti."
+
+msgid "No images in the content."
+msgstr "Nessuna immagine nel contenuto."
+
+msgid "All %d images have alt text."
+msgstr "Tutte le %d immagini hanno alt text."
+
+msgid "%d of %d images without alt text: complete the rest."
+msgstr "%d immagini su %d senza alt: completa il resto."
+
+msgid "%d of %d images without alt text: add descriptions."
+msgstr "%d immagini su %d senza alt: aggiungi descrizioni."
+
+msgid "Structured questions and answers present."
+msgstr "Schema FAQPage presente."
+
+msgid "%d questions in the text: turn them into a Q&A section from the \"Help AI understand this page\" box."
+msgstr "%d domande nel testo: aggiungi schema FAQPage tramite wizard."
+
+msgid "No Q&A pattern. Q&A greatly increases AI citability."
+msgstr "Nessun pattern FAQ. Le FAQ aumentano molto la citabilità AI."
+
+msgid "Secure connection active."
+msgstr "Sito su HTTPS."
+
+msgid "Connection not secure: a minimum requirement for AI."
+msgstr "Sito non in HTTPS: requisito minimo per indicizzazione AI."
+
+msgid "Official page address handled by WordPress."
+msgstr "Canonical URL gestito da WordPress core."
+
+msgid "Official page address not detected: check your theme or SEO plugin."
+msgstr "Canonical non rilevato in wp_head: verifica il tema o il plugin SEO."
+
+msgid "Content cites external sources with attribution phrases."
+msgstr "Contenuto cita fonti esterne con frasi di attribuzione."
+
+msgid "Weak citations: add explicit attributions to authoritative sources."
+msgstr "Citazioni deboli: aggiungi attribuzioni esplicite a fonti autorevoli."
+
+msgid "No explicit citations: AI looks for verifiable content."
+msgstr "Nessuna citazione esplicita: le AI cercano contenuti verificabili."
+
+msgid "Social preview generated by your SEO plugin with a featured image."
+msgstr "Open Graph generato da un plugin SEO e immagine in evidenza impostata."
+
+msgid "Social preview incomplete: you need both an SEO plugin and a featured image."
+msgstr "Open Graph parziale: serve sia un plugin SEO sia un'immagine in evidenza."
+
+msgid "No social preview: shared content won't show a rich preview."
+msgstr "Nessun Open Graph: i contenuti condivisi non avranno anteprime ricche."
+
+msgid "X preview generated by the SEO plugin with an image."
+msgstr "Twitter Card generata dal plugin SEO con immagine."
+
+msgid "X preview without an image: set a featured image."
+msgstr "Twitter Card senza immagine: imposta un'immagine in evidenza."
+
+msgid "No SEO plugin detected: the X preview is not generated."
+msgstr "Nessun plugin SEO rilevato: la Twitter Card non viene generata."
+
+msgid "Site language set to %s."
+msgstr "Lingua del sito impostata su %s."
+
+msgid "Site language not set: AI engines can't tell the content language."
+msgstr "Lingua del sito non impostata: i motori AI non riconoscono il linguaggio del contenuto."
+
+msgid "Page hidden from search engines (Yoast setting): it won't appear in results."
+msgstr "Post marcato come noindex (Yoast): non sarà indicizzato."
+
+msgid "Page hidden from search engines (RankMath setting): it won't appear in results."
+msgstr "Post marcato come noindex (RankMath): non sarà indicizzato."
+
+msgid "Page still a draft: no engine will show it until it is published."
+msgstr "Post ancora in bozza: nessun motore lo indicizzerà finché non è pubblicato."
+
+msgid "Page visible to search engines."
+msgstr "Post indicizzabile dai motori di ricerca."
+
+msgid "Multilingual plugin active: other-language versions are linked automatically."
+msgstr "Plugin multilingua attivo: hreflang vengono generati automaticamente."
+
+msgid "Single-language site: no other-language links needed."
+msgstr "Sito monolingua: hreflang non necessari."
+
+msgid "Complete article card (author, publisher, image)."
+msgstr "Markup Article completo (autore, publisher, immagine)."
+
+msgid "Article card incomplete: add author, publisher and image."
+msgstr "Markup Article parziale: completa autore, publisher e immagine."
+
+msgid "Article card present but without author, publisher or image."
+msgstr "Markup Article presente ma senza autore, publisher o immagine."
+
+msgid "No article card saved: add one from the \"Help AI understand this page\" box."
+msgstr "Nessun markup Article salvato: usa il wizard JSON-LD."
+
+msgid "Author profile without a website: add a URL in the user settings to strengthen authority."
+msgstr "Profilo autore senza sito web: aggiungi un URL nelle impostazioni utente per rafforzare autorevolezza."
+
+msgid "Author profile linked to %s."
+msgstr "Profilo autore collegato a %s."
+
+msgid "Author profile linked to the same site: an external profile (LinkedIn, personal site) is better."
+msgstr "Profilo autore collegato allo stesso sito: meglio un profilo esterno (LinkedIn, sito personale)."
+
+msgid "Empty content."
+msgstr "Contenuto vuoto."
+
+msgid "Short article: a table of contents isn't needed."
+msgstr "Articolo breve: l'indice non è necessario."
+
+msgid "Table of contents present with %d sections."
+msgstr "Indice navigabile presente con %d sezioni."
+
+msgid "%d sections but no table of contents: add one."
+msgstr "%d sezioni H2 ma nessun indice: aggiungi un Table of Contents."
+
+msgid "Empty content: add an opening."
+msgstr "Contenuto vuoto: aggiungi un'apertura."
+
+msgid "No paragraph found."
+msgstr "Nessun paragrafo trovato."
+
+msgid "Opening too short (%d characters): start with a clear summary."
+msgstr "Apertura troppo corta (%d caratteri): inizia con un riassunto chiaro."
+
+msgid "Opening very long (%d characters): trim it to 1-2 dense sentences."
+msgstr "Apertura molto lunga (%d caratteri): riducila a 1-2 frasi dense."
+
+msgid "The opening doesn't contain the main keyword."
+msgstr "L'apertura non contiene la parola chiave principale."
+
+msgid "Informative opening of suitable length."
+msgstr "Apertura informativa e di lunghezza adatta."
+
+msgid "Short article: lists aren't needed."
+msgstr "Articolo breve: gli elenchi non sono necessari."
+
+msgid "Good use of lists: %d lists present."
+msgstr "Buon uso di elenchi: %d liste presenti."
+
+msgid "Only one list: add another to make the content easier to scan."
+msgstr "Una sola lista: aggiungine un'altra per rendere il contenuto più scansionabile."
+
+msgid "No bulleted/numbered lists: AI prefers structured content."
+msgstr "Nessun elenco puntato/numerato: le AI preferiscono contenuti strutturati."
+
+msgid "All %d images have explicit dimensions."
+msgstr "Tutte le %d immagini hanno dimensioni esplicite."
+
+msgid "%d of %d images without dimensions: complete the rest."
+msgstr "%d immagini su %d senza dimensioni: completa il resto."
+
+msgid "%d of %d images without dimensions: they hurt the visual experience."
+msgstr "%d immagini su %d senza dimensioni: peggiorano l'esperienza visiva."
+
+msgid "Text too short to analyze passive voice."
+msgstr "Testo troppo corto per analizzare la forma passiva."
+
+msgid "Direct style: only %d%% of sentences in passive voice."
+msgstr "Stile diretto: solo %d%% delle frasi in forma passiva."
+
+msgid "%d%% of sentences in passive voice: try rewriting some in active voice."
+msgstr "%d%% delle frasi in forma passiva: prova a riscriverne qualcuna in attiva."
+
+msgid "%d%% of sentences in passive voice: too many to be cited by AI."
+msgstr "%d%% delle frasi in forma passiva: troppe per essere citate dalle AI."
+
+msgid "Text too short to measure sentence length."
+msgstr "Testo troppo corto per misurare la lunghezza delle frasi."
+
+msgid "Short sentences (avg %d words): easy to quote verbatim."
+msgstr "Frasi brevi (media %d parole): facili da citare in modo testuale."
+
+msgid "Medium sentences (%d words): break up the longer ones."
+msgstr "Frasi medie (%d parole): spezza quelle più lunghe."
+
+msgid "Sentences too long (%d words): an AI will struggle to extract short answers."
+msgstr "Frasi troppo lunghe (%d parole): un'AI faticherà a estrarre risposte brevi."
+
+msgid "The year %d is mentioned in the text."
+msgstr "L'anno %d è menzionato nel testo."
+
+msgid "Year %d cited but not %d: update the time references."
+msgstr "Citato l'anno %d ma non %d: aggiorna i riferimenti temporali."
+
+msgid "No reference to the current year: AI penalizes content that seems outdated."
+msgstr "Nessun riferimento all'anno corrente: le AI penalizzano contenuti percepiti come datati."
+
+msgid "No paragraph in the content."
+msgstr "Nessun paragrafo nel contenuto."
+
+msgid "Well-sized paragraphs (%d total)."
+msgstr "Paragrafi ben dimensionati (%d totali)."
+
+msgid "%d paragraphs too long: break up the walls of text."
+msgstr "%d paragrafi troppo lunghi: spezza i muri di testo."
+
+msgid "%d paragraphs too long: the content is hard to scan."
+msgstr "%d paragrafi troppo lunghi: il contenuto è difficile da scansionare."
+
+msgid "Check"
+msgstr "Controllo"
+
+msgid "Choose…"
+msgstr "Scegli…"
+
+msgid "Article"
+msgstr "Articolo"
+
+msgid "Blog post"
+msgstr "Articolo di blog"
+
+msgid "News"
+msgstr "Notizia"
+
+msgid "FAQ page (questions and answers)"
+msgstr "Pagina FAQ (domande e risposte)"
+
+msgid "Tutorial guide"
+msgstr "Guida tutorial"
+
+msgid "Recipe"
+msgstr "Ricetta"
+
+msgid "Review"
+msgstr "Recensione"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Product page"
+msgstr "Scheda prodotto"
+
+msgid "Service"
+msgstr "Servizio"
+
+msgid "Event"
+msgstr "Evento"
+
+msgid "Course / lesson"
+msgstr "Corso / lezione"
+
+msgid "Job posting"
+msgstr "Offerta di lavoro"
+
+msgid "Critical"
+msgstr "Critico"
+
+msgid "Needs work"
+msgstr "Da migliorare"
+
+msgid "Fair"
+msgstr "Discreto"
+
+msgid "Good"
+msgstr "Buono"
+
+msgid "Excellent"
+msgstr "Eccellente"
+
+msgid "Coherence"
+msgstr "Coerenza"
+
+msgid "Identity"
+msgstr "Identità"
+
+msgid "Content"
+msgstr "Contenuti"
+
+msgid "Performance"
+msgstr "Prestazioni"
+
+msgid "Reputation"
+msgstr "Reputazione"
+
+msgid "How clearly the title and subheadings show what the page is about."
+msgstr "Quanto il titolo e i sottotitoli rendono subito chiaro di cosa parla la pagina."
+
+msgid "How well the HTML code communicates who you are and what you do."
+msgstr "Quanto il codice HTML comunica chi sei e cosa fai"
+
+msgid "How complete, readable and well-organized the text is."
+msgstr "Quanto il testo è completo, leggibile e ben organizzato."
+
+msgid "How technically sound and secure the page is."
+msgstr "Quanto la pagina è tecnicamente solida e sicura."
+
+msgid "How much the content cites reliable sources and links to external sites."
+msgstr "Quanto il contenuto cita fonti affidabili e si collega a siti esterni."
+
+msgid "Fill in the fields and save."
+msgstr "Compila i campi e salva."
+
+msgid "JSON-LD saved. It will be injected into the page <head>."
+msgstr "JSON-LD salvato. Verrà iniettato nel <head> della pagina."
+
+msgid "Error: "
+msgstr "Errore: "
+
+msgid "JSON-LD removed."
+msgstr "JSON-LD rimosso."
+
+msgid "Can't calculate the score."
+msgstr "Non riesco a calcolare lo score."
+
+msgid "The Citability Score measures how citable your brand is by conversational AI engines"
+msgstr "Il Citability Score misura quanto il tuo brand è citabile dai motori conversazionali AI"
+
+msgid "What is the Citability Score"
+msgstr "Cos'è il Citability Score"
+
+msgid "out of 100"
+msgstr "su 100"
+
+msgid "parameters"
+msgstr "parametri"
+
+msgid "What to improve"
+msgstr "Cosa migliorare"
+
+msgid "Citation Rate"
+msgstr "Citation Rate"
+
+msgid "Out of 10 queries in your industry you'd be cited about"
+msgstr "Su 10 query del tuo settore verresti citato circa"
+
+msgid "times. Discover your real citations with the AI Visibility Index (AVI)."
+msgstr "volte. Scopri davvero le tue citazioni con l'AI Visibility Index (AVI)."
+
+msgid "Click here to discover your Citation Rate"
+msgstr "Clicca qui per scoprire il tuo Citation Rate"
+
+msgid "This is a partial on-page score."
+msgstr "Questo è uno score on-page parziale."
+
+msgid "It only analyzes this page's content. Run the full audit for free on the CitationRate platform to make your brand citable by AI."
+msgstr "Analizza solo il contenuto di questa pagina. Esegui gratuitamente l'audit completo sulla piattaforma CitationRate per rendere il tuo brand citabile dalle AI."
+
+msgid "Complete your score for free"
+msgstr "Completa il tuo score gratis"
+
+msgid "+ Add"
+msgstr "+ Aggiungi"
+
+msgid "Help AI understand this page"
+msgstr "Aiuta le AI a capire questa pagina"
+
+msgid "What is this page about?"
+msgstr "Di cosa parla questa pagina?"
+
+msgid "Save to <head>"
+msgstr "Salva nel <head>"
+
+msgid "Remove"
+msgstr "Rimuovi"
+
+msgid "Hide JSON"
+msgstr "Nascondi JSON"
+
+msgid "Show JSON (advanced)"
+msgstr "Mostra JSON (avanzato)"
+
+msgid "powered by"
+msgstr "powered by"
+
+msgid "Step description"
+msgstr "Descrizione del passo"
+
+msgid "Availability"
+msgstr "Disponibilità"
+
+msgid "Operating system"
+msgstr "Sistema operativo"
+
+msgid "e.g. 2026-06-15 23:00"
+msgstr "es. 2026-06-15 23:00"
+
+msgid "Page URL"
+msgstr "URL della pagina"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Last updated"
+msgstr "Data di modifica"
+
+msgid "App category"
+msgstr "Categoria app"
+
+msgid "Currency"
+msgstr "Valuta"
+
+msgid "Image (URL)"
+msgstr "Immagine (URL)"
+
+msgid "Provider"
+msgstr "Fornitore"
+
+msgid "Title"
+msgstr "Titolo"
+
+msgid "e.g. +39 02 1234567"
+msgstr "es. +39 02 1234567"
+
+msgid "Embed URL"
+msgstr "URL di embed"
+
+msgid "Offer / price"
+msgstr "Offerta / prezzo"
+
+msgid "Address"
+msgstr "Indirizzo"
+
+msgid "Logo (URL)"
+msgstr "Logo (URL)"
+
+msgid "Author"
+msgstr "Autore"
+
+msgid "Contract type"
+msgstr "Tipo di contratto"
+
+msgid "Publisher"
+msgstr "Editore"
+
+msgid "End date"
+msgstr "Data di fine"
+
+msgid "Location"
+msgstr "Luogo"
+
+msgid "Video URL"
+msgstr "URL del video"
+
+msgid "Review text"
+msgstr "Testo della recensione"
+
+msgid "Max rating"
+msgstr "Voto massimo"
+
+msgid "EUR"
+msgstr "EUR"
+
+msgid "e.g. 2026-06-15 20:00"
+msgstr "es. 2026-06-15 20:00"
+
+msgid "Country"
+msgstr "Paese"
+
+msgid "Postal code"
+msgstr "CAP"
+
+msgid "Brand"
+msgstr "Marca"
+
+msgid "Phone"
+msgstr "Telefono"
+
+msgid "Upload date"
+msgstr "Data di caricamento"
+
+msgid "e.g. 29.90"
+msgstr "es. 29,90"
+
+msgid "Description"
+msgstr "Descrizione"
+
+msgid "Recipe steps"
+msgstr "Passi della ricetta"
+
+msgid "Text"
+msgstr "Testo"
+
+msgid "Rating"
+msgstr "Voto"
+
+msgid "Street"
+msgstr "Via"
+
+msgid "Answer"
+msgstr "Risposta"
+
+msgid "Event status"
+msgstr "Stato evento"
+
+msgid "e.g. 4.5"
+msgstr "es. 4.5"
+
+msgid "e.g. iOS, Android, Web"
+msgstr "es. iOS, Android, Web"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Thumbnail (URL)"
+msgstr "Anteprima (URL)"
+
+msgid "Steps"
+msgstr "Passi"
+
+msgid "Min rating"
+msgstr "Voto minimo"
+
+msgid "Job location"
+msgstr "Luogo di lavoro"
+
+msgid "Service type"
+msgstr "Tipo di servizio"
+
+msgid "Province/Region"
+msgstr "Provincia/Regione"
+
+msgid "Ingredients"
+msgstr "Ingredienti"
+
+msgid "e.g. FULL_TIME"
+msgstr "es. FULL_TIME"
+
+msgid "What you're reviewing"
+msgstr "Cosa recensisci"
+
+msgid "Question"
+msgstr "Domanda"
+
+msgid "e.g. BusinessApplication"
+msgstr "es. BusinessApplication"
+
+msgid "Price range"
+msgstr "Fascia di prezzo"
+
+msgid "City"
+msgstr "Città"
+
+msgid "Questions and answers"
+msgstr "Domande e risposte"
+
+msgid "Company"
+msgstr "Azienda"
+
+msgid "Start date"
+msgstr "Data di inizio"
+
+msgid "Price"
+msgstr "Prezzo"
+
+msgid "Profiles / links"
+msgstr "Profili / link"
+
+msgid "e.g. Tax consulting"
+msgstr "es. Consulenza fiscale"
+
+msgid "Area served"
+msgstr "Zona servita"
+

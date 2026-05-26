@@ -40,7 +40,7 @@ class Meta_Box {
 				<strong><?php echo esc_html( $score ); ?></strong> / 100
 			</div>
 			<p class="description">
-				<?php echo esc_html__( 'Stima on-page lite. Apri il Block Editor per il breakdown completo e il wizard JSON-LD.', 'citability-score' ); ?>
+				<?php echo esc_html__( 'Lite on-page estimate. Open the Block Editor for the full breakdown and the JSON-LD wizard.', 'citability-score' ); ?>
 			</p>
 		</div>
 		<?php

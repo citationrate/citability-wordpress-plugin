@@ -1,6 +1,28 @@
 .citability-sidebar { padding: 12px; }
 
+.citability-info {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	border: 1px solid currentColor;
+	color: currentColor;
+	opacity: 0.6;
+	font-size: 11px;
+	font-weight: 700;
+	font-style: italic;
+	line-height: 1;
+	cursor: help;
+}
+.citability-info:hover { opacity: 1; }
+
 .citability-score-card {
+	position: relative;
 	display: flex;
 	align-items: center;
 	gap: 12px;
@@ -26,11 +48,11 @@
 .citability-macro { margin-bottom: 8px; }
 .citability-macro-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
 .citability-macro-bar { height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; }
-.citability-macro-fill { height: 100%; background: #6366f1; transition: width .3s ease; }
+.citability-macro-fill { height: 100%; background: #3f7d5b; transition: width .3s ease; }
 
 .citability-suggestions { margin: 12px 0; }
 .citability-suggestion {
-	border-left: 3px solid #6366f1;
+	border-left: 3px solid #3f7d5b;
 	padding: 6px 8px;
 	margin-bottom: 6px;
 	background: #f8fafc;
@@ -38,6 +60,21 @@
 }
 .citability-suggestion.high { border-left-color: #b91c1c; }
 .citability-suggestion.medium { border-left-color: #d97706; }
+
+/* JSON-LD guided form */
+.citability-jsonld-form { margin-top: 10px; }
+.citability-field-label { font-size: 12px; font-weight: 600; color: #334155; margin: 10px 0 4px; }
+.citability-field-row { display: flex; align-items: flex-start; gap: 6px; }
+.citability-field-row .components-base-control { flex: 1; }
+.citability-field-group {
+	border: 1px solid #e2e8f0;
+	border-radius: 6px;
+	padding: 8px 10px;
+	margin-bottom: 8px;
+	background: #f8fafc;
+	position: relative;
+}
+.citability-field-block { margin-bottom: 6px; }
 
 .citability-jsonld-block {
 	border: 1px dashed #cbd5e1;
@@ -60,7 +97,7 @@
 	padding: 12px;
 	border: 1px solid #e0e0e0;
 	border-radius: 8px;
-	background: #fafaff;
+	background: #f6faf7;
 }
 .citability-cr-title { font-size: 14px; font-weight: 700; margin: 0 0 4px; }
 .citability-cr-desc { font-size: 12px; color: #475569; margin: 0 0 10px; line-height: 1.45; }
@@ -76,18 +113,69 @@
 .citability-cr-frac > span:last-child { padding-top: 3px; border-top: 1px solid #94a3b8; }
 .citability-cr-mult { font-size: 13px; font-weight: 600; color: #334155; }
 .citability-cr-figure { text-align: center; margin: 8px 0; }
-.citability-cr-big { font-size: 30px; font-weight: 700; color: #6366f1; line-height: 1; }
+.citability-cr-big { font-size: 30px; font-weight: 700; color: #3f7d5b; line-height: 1; }
 .citability-cr-note { font-size: 11px; color: #64748b; margin: 6px 0 0; line-height: 1.45; }
+/* AVI CTA — secondary (outline), below the primary "complete score" card */
 .citability-cr-cta {
 	display: block;
 	text-align: center;
 	margin-top: 10px;
 	padding: 8px 10px;
-	background: #6366f1;
-	color: #fff !important;
+	background: transparent;
+	color: #3f7d5b !important;
+	border: 1px solid #3f7d5b;
 	border-radius: 6px;
 	font-size: 12px;
 	font-weight: 600;
 	text-decoration: none;
 }
-.citability-cr-cta:hover { background: #4f46e5; }
+.citability-cr-cta:hover { background: #e8f3ec; }
+
+/* Score parameter counter (inside the score card) */
+.citability-params { font-size: 11px; opacity: 0.7; margin-top: 2px; }
+
+/* Macro info icon */
+.citability-macro-i {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	border: 1px solid #94a3b8;
+	color: #64748b;
+	font-size: 9px;
+	font-weight: 700;
+	font-style: italic;
+	line-height: 1;
+	cursor: help;
+	vertical-align: middle;
+	margin-left: 4px;
+}
+.citability-macro-i:hover { border-color: #3f7d5b; color: #3f7d5b; }
+
+/* Primary funnel CTA — complete score on the platform */
+.citability-upgrade {
+	margin: 12px 0;
+	padding: 12px;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	background: #f8fafc;
+}
+.citability-upgrade-text { font-size: 12px; color: #334155; margin: 0 0 10px; line-height: 1.45; }
+.citability-upgrade-cta {
+	display: block;
+	text-align: center;
+	padding: 9px 10px;
+	background: #3f7d5b;
+	color: #fff !important;
+	border-radius: 6px;
+	font-size: 13px;
+	font-weight: 700;
+	text-decoration: none;
+}
+.citability-upgrade-cta:hover { background: #2d5c42; }
+
+/* powered by footer */
+.citability-powered { text-align: center; font-size: 11px; color: #94a3b8; margin: 14px 0 4px; }
+.citability-powered a { color: #3f7d5b; text-decoration: none; font-weight: 600; }

@@ -1,74 +1,100 @@
 === Citability Score ===
 Contributors: citationrate
-Tags: ai, llm, seo, schema, json-ld, citationrate, ai overviews, chatgpt, gemini, perplexity
+Tags: ai, seo, schema, json-ld, chatgpt
 Requires at least: 6.0
-Tested up to: 6.5
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.2.0
+Stable tag: 0.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Score di citabilità AI per ogni pagina + wizard JSON-LD (Article, FAQ, HowTo, Recipe, LocalBusiness). Ottimizza i contenuti per essere citati dagli LLM.
+AI citability score in the Block Editor plus a guided JSON-LD wizard. Optimize content to be cited by ChatGPT, Gemini, Claude and Perplexity.
 
 == Description ==
 
-Citability Score misura quanto un contenuto WordPress è "citabile" da ChatGPT, Gemini, Claude, Perplexity e Google AI Overviews. Direttamente nel Block Editor, mentre scrivi.
+Citability Score measures how "citable" your WordPress content is by ChatGPT, Gemini, Claude, Perplexity and Google AI Overviews — right inside the Block Editor, as you write.
 
-Il plugin calcola in locale uno score 0-100 basato su ~18 segnali on-page (struttura heading, meta description, lunghezza, leggibilità, immagini con alt, link interni/esterni, schema markup, citazioni di fonti, ecc.) e offre un wizard JSON-LD assistito per generare il markup Schema.org corretto.
+The plugin computes a 0–100 score locally from 33 on-page signals (heading structure, page description, length, readability, image alt text, internal/external links, schema markup, source citations and more) and offers a guided JSON-LD wizard to generate the correct Schema.org markup.
 
-= Funzionalità =
+= Features =
 
-* **Score live nel Block Editor**: barra laterale che si aggiorna mentre scrivi
-* **Breakdown 5 macro-aree**: Coerenza, Identità, Contenuti, Prestazioni, Reputazione
-* **Suggerimenti azionabili**: lista priorità di cosa migliorare
-* **Wizard JSON-LD**: 5 schemi supportati (Article, FAQ, HowTo, Recipe, LocalBusiness)
-* **Auto-populate**: il wizard riempie i campi dai dati del post
-* **API key opzionale**: collega un account CitationRate per l'audit completo (oltre 50 parametri)
+* **Live score in the Block Editor** — a sidebar that updates as you type, no saving needed
+* **5 macro-area breakdown** — Coherence, Identity, Content, Performance, Reputation, each with a plain-language explanation
+* **Actionable suggestions** — a prioritized list of what to improve
+* **Guided JSON-LD wizard** — 13 content types (Article, Blog post, News, FAQ, Tutorial, Recipe, Review, Video, Product, Service, Event, Course, Job posting). Fields are auto-filled from your content; you never edit raw JSON
+* **Citation Rate estimate** — an illustrative projection of how often AI would cite the page
+* **English and Italian** — the plugin follows your WordPress language
 
-= Zero costi server =
+= Privacy-friendly, no server cost =
 
-Il calcolo dello score lite avviene interamente sul tuo WordPress. Nessuna chiamata API, nessun invio di dati a terzi (a meno di configurare l'API key opzionale).
+The lite score is computed entirely on your own WordPress. No external API calls and no data sent to third parties in the default mode.
+
+== External services ==
+
+In its default (lite) mode, Citability Score does **not** send any data to external services — the score is computed locally on your site.
+
+The plugin links out to the CitationRate platform for optional features. These are plain links that open in a new tab when the user clicks them; the plugin itself does not transmit any data:
+
+* "Complete your score" / "powered by" → https://suite.citationrate.com (the CitationRate web app)
+* "Discover your Citation Rate" → https://avi.citationrate.com (the AI Visibility Index web app)
+
+An optional CitationRate API key field is available in the settings for a future full-audit integration. Only if you enter a key and use that feature would page content be sent to the CitationRate backend for analysis. Without a key, nothing is sent.
+
+CitationRate Terms: https://citationrate.com/terms — Privacy Policy: https://citationrate.com/privacy
 
 == Installation ==
 
-1. Carica la cartella `citability-score` in `/wp-content/plugins/`
-2. Attiva il plugin dal menu **Plugin** in WordPress
-3. Apri un articolo nel Block Editor: la sidebar Citability appare automaticamente
-4. (Opzionale) Vai in **Impostazioni → Citability Score** per collegare un account CitationRate
+1. Upload the `citability-score` folder to `/wp-content/plugins/`, or go to Plugins → Add New → Upload Plugin and upload the ZIP.
+2. Activate the plugin from the **Plugins** menu.
+3. Open any post in the Block Editor: the Citability sidebar appears automatically.
+4. (Optional) Go to **Settings → Citability Score** to connect a CitationRate account.
 
 == Frequently Asked Questions ==
 
-= Lo score sostituisce un audit completo CitationRate? =
+= Does this replace a full CitationRate audit? =
 
-No. È una stima on-page basata su ~18 dei 56 parametri completi. Non include analisi backlinks, citation rate AI reale o test con modelli LLM. Per l'audit completo, collega un account CitationRate.
+No. It is an on-page estimate based on 33 of the 56 full parameters. It does not include backlink analysis, the real AI citation rate, or live tests with AI models. For the full audit, connect a CitationRate account.
 
-= Il plugin invia i miei contenuti a terzi? =
+= Does the plugin send my content to third parties? =
 
-No, in modalità default tutto il calcolo avviene in locale. Solo se configuri l'API key CitationRate i contenuti vengono inviati al backend per l'audit completo.
+No. In the default mode everything is computed locally. Content is only sent if you configure the optional CitationRate API key.
 
-= Supporta Yoast/RankMath? =
+= Does it support Yoast and Rank Math? =
 
-Sì. Il plugin legge meta description e focus keyword da entrambi se installati.
+Yes. The plugin reads the page description and focus keyword from both, if installed.
+
+= In which languages is it available? =
+
+English and Italian. The plugin follows your WordPress language (Settings → General, or your user profile language).
 
 == Screenshots ==
 
-1. Sidebar Citability nel Block Editor con score e breakdown
-2. Wizard JSON-LD con scelta dello schema
-3. Lista suggerimenti azionabili
-4. Pagina impostazioni con API key
+1. Citability sidebar in the Block Editor with the score and macro-area breakdown
+2. Citation Rate panel: illustrative estimate and link to AVI
+3. JSON-LD wizard: choose what the page is about, fields auto-filled
+4. Actionable suggestions list
+5. JSON-LD output injected into the public page source
 
 == Changelog ==
 
+= 0.3.0 =
+* Internationalized: source strings in English (default) plus an Italian translation (it_IT). The language follows the WordPress setting.
+* Updated the "Identity" macro-area description.
+
+= 0.2.1 =
+* Live score that updates on every edit, without saving.
+* Citation Rate panel simplified.
+* JSON-LD wizard: a simple "What is this page about?" question with 13 content types and auto-filled guided fields.
+* Info tooltips on the score and on each macro-area.
+* "Parameters analyzed" counter and a call to run the full audit for free on the CitationRate platform (UTM-tracked).
+
 = 0.2.0 =
-* Nuovo pannello "Citation Rate": spiega la formula (query citate ÷ query totali × 100), mostra una stima illustrativa basata sul Citability Score on-page e rimanda ad AVI per la misurazione reale.
+* New "Citation Rate" panel with an illustrative estimate and a link to AVI.
 
 = 0.1.0 =
-* Prima release: scorer lite, JSON-LD wizard (5 schemi), Block Editor sidebar.
+* First release: lite scorer, JSON-LD wizard, Block Editor sidebar.
 
 == Upgrade Notice ==
 
-= 0.2.0 =
-Aggiunto il pannello Citation Rate con stima illustrativa e collegamento ad AVI.
-
-= 0.1.0 =
-Prima release pubblica.
+= 0.3.0 =
+Now available in English and Italian (follows your WordPress language).

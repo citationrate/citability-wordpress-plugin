@@ -28,46 +28,57 @@ class On_Page_Scorer {
 	 */
 	public static function labels() {
 		return array(
-			'P1'  => __( 'Lunghezza titolo', 'citability-score' ),
-			'P2'  => __( 'Meta description', 'citability-score' ),
-			'P3'  => __( 'Struttura del titolo H1', 'citability-score' ),
-			'P4'  => __( 'Gerarchia degli heading', 'citability-score' ),
-			'P5'  => __( 'Parola chiave nel titolo', 'citability-score' ),
-			'P12' => __( 'Autore visibile', 'citability-score' ),
-			'P13' => __( 'Data di pubblicazione', 'citability-score' ),
-			'P14' => __( 'Bio autore', 'citability-score' ),
-			'P15' => __( 'Schema Organization', 'citability-score' ),
-			'P30' => __( 'Lunghezza del contenuto', 'citability-score' ),
-			'P31' => __( 'Leggibilità', 'citability-score' ),
-			'P32' => __( 'Link interni', 'citability-score' ),
-			'P33' => __( 'Link a fonti esterne', 'citability-score' ),
-			'P34' => __( 'Descrizioni delle immagini', 'citability-score' ),
-			'P35' => __( 'Sezione domande e risposte', 'citability-score' ),
-			'P40' => __( 'Connessione sicura', 'citability-score' ),
-			'P41' => __( 'URL canonico', 'citability-score' ),
-			'P52' => __( 'Citazioni di fonti', 'citability-score' ),
-			'L1'  => __( 'Tag Open Graph', 'citability-score' ),
-			'L2'  => __( 'Twitter Card', 'citability-score' ),
-			'L3'  => __( 'Lingua del sito', 'citability-score' ),
-			'L4'  => __( 'Indicizzazione', 'citability-score' ),
-			'L5'  => __( 'Versione multilingua', 'citability-score' ),
-			'L6'  => __( 'Markup Article completo', 'citability-score' ),
-			'L7'  => __( 'Profilo autore esterno', 'citability-score' ),
-			'L8'  => __( 'Indice navigabile', 'citability-score' ),
-			'L9'  => __( 'Apertura del contenuto', 'citability-score' ),
-			'L10' => __( 'Elenchi e bullet', 'citability-score' ),
-			'L11' => __( 'Dimensioni delle immagini', 'citability-score' ),
-			'L12' => __( 'Forma passiva', 'citability-score' ),
-			'L13' => __( 'Lunghezza delle frasi', 'citability-score' ),
-			'L14' => __( 'Anno corrente nel testo', 'citability-score' ),
-			'L15' => __( 'Lunghezza dei paragrafi', 'citability-score' ),
+			'P1'  => __( 'Title length', 'citability-score' ),
+			'P2'  => __( 'Short page description', 'citability-score' ),
+			'P3'  => __( 'A single main heading', 'citability-score' ),
+			'P4'  => __( 'Subheadings that split the text', 'citability-score' ),
+			'P5'  => __( 'Keyword in the title', 'citability-score' ),
+			'P12' => __( 'Visible author', 'citability-score' ),
+			'P13' => __( 'Publication date', 'citability-score' ),
+			'P14' => __( 'Short author bio', 'citability-score' ),
+			'P15' => __( 'Business details for AI', 'citability-score' ),
+			'P30' => __( 'Content length', 'citability-score' ),
+			'P31' => __( 'Readability', 'citability-score' ),
+			'P32' => __( 'Links to your other pages', 'citability-score' ),
+			'P33' => __( 'Links to external sources', 'citability-score' ),
+			'P34' => __( 'Image descriptions', 'citability-score' ),
+			'P35' => __( 'Questions and answers section', 'citability-score' ),
+			'P40' => __( 'Secure connection', 'citability-score' ),
+			'P41' => __( 'Official page address', 'citability-score' ),
+			'P52' => __( 'Sources cited in the text', 'citability-score' ),
+			'L1'  => __( 'Preview when shared on social', 'citability-score' ),
+			'L2'  => __( 'Preview on X (Twitter)', 'citability-score' ),
+			'L3'  => __( 'Site language', 'citability-score' ),
+			'L4'  => __( 'Page visible to search engines', 'citability-score' ),
+			'L5'  => __( 'Versions in other languages', 'citability-score' ),
+			'L6'  => __( 'Complete article card for AI', 'citability-score' ),
+			'L7'  => __( 'Public author profile', 'citability-score' ),
+			'L8'  => __( 'Table of contents', 'citability-score' ),
+			'L9'  => __( 'Opening that answers right away', 'citability-score' ),
+			'L10' => __( 'Bulleted lists', 'citability-score' ),
+			'L11' => __( 'Image dimensions specified', 'citability-score' ),
+			'L12' => __( 'Sentences in active voice', 'citability-score' ),
+			'L13' => __( 'Short sentences', 'citability-score' ),
+			'L14' => __( 'Reference to the current year', 'citability-score' ),
+			'L15' => __( 'Short paragraphs', 'citability-score' ),
 		);
 	}
 
-	public static function score_post( $post_id ) {
+	public static function score_post( $post_id, $overrides = array() ) {
 		$post = get_post( $post_id );
 		if ( ! $post ) {
-			return new \WP_Error( 'not_found', __( 'Post non trovato.', 'citability-score' ) );
+			return new \WP_Error( 'not_found', __( 'Post not found.', 'citability-score' ) );
+		}
+
+		// Live scoring: override the saved fields with the current editor
+		// content. Clone first so we never mutate the cached WP_Post instance.
+		if ( ! empty( $overrides ) ) {
+			$post = clone $post;
+			foreach ( array( 'post_content', 'post_title', 'post_excerpt' ) as $field ) {
+				if ( isset( $overrides[ $field ] ) ) {
+					$post->$field = $overrides[ $field ];
+				}
+			}
 		}
 
 		$context = self::build_context( $post );
@@ -137,9 +148,11 @@ class On_Page_Scorer {
 			'macros'      => $macro_scores,
 			'suggestions' => self::build_suggestions( $results ),
 			'meta'        => array(
-				'post_id'     => (int) $post_id,
-				'computed_at' => time(),
-				'engine'      => 'lite-v1',
+				'post_id'        => (int) $post_id,
+				'computed_at'    => time(),
+				'engine'         => 'lite-v1',
+				'params_checked' => count( $results ),
+				'params_total'   => 56,
 			),
 		);
 	}
@@ -232,98 +245,98 @@ class On_Page_Scorer {
 	private static function check_title_length( $ctx ) {
 		$len = mb_strlen( $ctx['title'] );
 		if ( $len >= 30 && $len <= 65 ) {
-			return self::pass( 2, sprintf( __( 'Titolo %d caratteri, nel range ottimale (30-65).', 'citability-score' ), $len ) );
+			return self::pass( 2, sprintf( __( 'Title %d characters, within the optimal range (30-65).', 'citability-score' ), $len ) );
 		}
 		if ( $len >= 20 && $len <= 80 ) {
-			return self::pass( 1, sprintf( __( 'Titolo %d caratteri, accettabile ma fuori dal range ideale (30-65).', 'citability-score' ), $len ) );
+			return self::pass( 1, sprintf( __( 'Title %d characters, acceptable but outside the ideal range (30-65).', 'citability-score' ), $len ) );
 		}
-		return self::pass( 0, sprintf( __( 'Titolo %d caratteri: troppo %s.', 'citability-score' ), $len, $len < 20 ? __( 'corto', 'citability-score' ) : __( 'lungo', 'citability-score' ) ) );
+		return self::pass( 0, sprintf( __( 'Title %d characters: too %s.', 'citability-score' ), $len, $len < 20 ? __( 'short', 'citability-score' ) : __( 'long', 'citability-score' ) ) );
 	}
 
 	private static function check_meta_description( $ctx ) {
 		$len = mb_strlen( $ctx['meta_desc'] );
 		if ( 0 === $len ) {
-			return self::pass( 0, __( 'Meta description assente.', 'citability-score' ) );
+			return self::pass( 0, __( 'Page description missing.', 'citability-score' ) );
 		}
 		if ( $len >= 120 && $len <= 160 ) {
-			return self::pass( 2, sprintf( __( 'Meta description %d caratteri, nel range ottimale.', 'citability-score' ), $len ) );
+			return self::pass( 2, sprintf( __( 'Description %d characters, optimal length.', 'citability-score' ), $len ) );
 		}
-		return self::pass( 1, sprintf( __( 'Meta description %d caratteri, fuori dal range ideale (120-160).', 'citability-score' ), $len ) );
+		return self::pass( 1, sprintf( __( 'Description %d characters, outside the ideal length (120-160).', 'citability-score' ), $len ) );
 	}
 
 	private static function check_h1_unique( $ctx ) {
 		// In WP il <h1> della singola è quasi sempre il titolo gestito dal tema.
 		// Penalizziamo solo se il contenuto contiene più <h1> espliciti.
 		if ( ! $ctx['dom'] ) {
-			return self::pass( 2, __( 'Nessun H1 duplicato nel corpo.', 'citability-score' ) );
+			return self::pass( 2, __( 'No duplicate main heading in the body.', 'citability-score' ) );
 		}
 		$h1s = $ctx['dom']->getElementsByTagName( 'h1' );
 		if ( $h1s->length === 0 ) {
-			return self::pass( 2, __( 'Nessun H1 duplicato nel corpo (il tema fornisce il titolo).', 'citability-score' ) );
+			return self::pass( 2, __( 'No duplicate main heading in the body (the theme provides the title).', 'citability-score' ) );
 		}
 		if ( $h1s->length === 1 ) {
-			return self::pass( 1, __( 'Un H1 nel corpo: rischio di doppio H1 se il tema lo ripete.', 'citability-score' ) );
+			return self::pass( 1, __( 'One main heading in the body: risk of a duplicate if the theme repeats it.', 'citability-score' ) );
 		}
-		return self::pass( 0, sprintf( __( '%d tag H1 nel corpo: usa H2/H3 per le sezioni.', 'citability-score' ), $h1s->length ) );
+		return self::pass( 0, sprintf( __( '%d main headings in the text: use subheadings for sections.', 'citability-score' ), $h1s->length ) );
 	}
 
 	private static function check_heading_hierarchy( $ctx ) {
 		if ( ! $ctx['dom'] ) {
-			return self::pass( 0, __( 'Nessun heading rilevato nel contenuto.', 'citability-score' ) );
+			return self::pass( 0, __( 'No headings found in the content.', 'citability-score' ) );
 		}
 		$h2 = $ctx['dom']->getElementsByTagName( 'h2' )->length;
 		$h3 = $ctx['dom']->getElementsByTagName( 'h3' )->length;
 		if ( $h2 >= 2 ) {
-			return self::pass( 2, sprintf( __( 'Gerarchia heading buona: %d H2, %d H3.', 'citability-score' ), $h2, $h3 ) );
+			return self::pass( 2, sprintf( __( 'Good subheading structure (%d main, %d secondary).', 'citability-score' ), $h2, $h3 ) );
 		}
 		if ( $h2 === 1 || $h3 > 0 ) {
-			return self::pass( 1, __( 'Pochi heading: aggiungi 2-3 H2 per strutturare il contenuto.', 'citability-score' ) );
+			return self::pass( 1, __( 'Few subheadings: add 2-3 to structure the content.', 'citability-score' ) );
 		}
-		return self::pass( 0, __( 'Nessun H2: il contenuto è un blocco unico, difficile da citare per gli LLM.', 'citability-score' ) );
+		return self::pass( 0, __( 'No subheadings: the text is one block, hard for AI to cite.', 'citability-score' ) );
 	}
 
 	private static function check_focus_keyword_in_title( $ctx ) {
 		if ( empty( $ctx['focus_kw'] ) ) {
-			return self::pass( null, __( 'Focus keyword non impostata (richiede Yoast o RankMath).', 'citability-score' ) );
+			return self::pass( null, __( 'Main keyword not set (requires Yoast or RankMath).', 'citability-score' ) );
 		}
 		$found = false !== mb_stripos( $ctx['title'], $ctx['focus_kw'] );
 		return $found
-			? self::pass( 2, __( 'Focus keyword presente nel titolo.', 'citability-score' ) )
-			: self::pass( 0, sprintf( __( 'Focus keyword "%s" non presente nel titolo.', 'citability-score' ), $ctx['focus_kw'] ) );
+			? self::pass( 2, __( 'Main keyword present in the title.', 'citability-score' ) )
+			: self::pass( 0, sprintf( __( 'Main keyword "%s" not present in the title.', 'citability-score' ), $ctx['focus_kw'] ) );
 	}
 
 	private static function check_author_byline( $ctx ) {
 		if ( ! $ctx['author'] ) {
-			return self::pass( 0, __( 'Autore non rilevato.', 'citability-score' ) );
+			return self::pass( 0, __( 'Author not detected.', 'citability-score' ) );
 		}
 		// Heuristic: presupponiamo che il tema mostri l'autore; segnaliamo se è "admin".
 		if ( strtolower( $ctx['author']->user_login ) === 'admin' ) {
-			return self::pass( 1, __( 'Autore "admin": meglio un nome reale per costruire E-E-A-T.', 'citability-score' ) );
+			return self::pass( 1, __( 'Author "admin": a real name builds more authority.', 'citability-score' ) );
 		}
-		return self::pass( 2, sprintf( __( 'Autore: %s.', 'citability-score' ), $ctx['author']->display_name ) );
+		return self::pass( 2, sprintf( __( 'Author: %s.', 'citability-score' ), $ctx['author']->display_name ) );
 	}
 
 	private static function check_dates_visible( $ctx ) {
 		$pub = get_post_time( 'U', true, $ctx['post'] );
 		$mod = get_post_modified_time( 'U', true, $ctx['post'] );
 		if ( ! $pub ) {
-			return self::pass( 0, __( 'Data di pubblicazione assente.', 'citability-score' ) );
+			return self::pass( 0, __( 'Publication date missing.', 'citability-score' ) );
 		}
 		if ( $mod && abs( $mod - $pub ) > DAY_IN_SECONDS ) {
-			return self::pass( 2, __( 'Pubblicazione e ultimo aggiornamento differenti: ottimo segnale di freschezza.', 'citability-score' ) );
+			return self::pass( 2, __( 'Different publish and update dates: a great freshness signal.', 'citability-score' ) );
 		}
-		return self::pass( 1, __( 'Data di pubblicazione presente, manca segnale di aggiornamento.', 'citability-score' ) );
+		return self::pass( 1, __( 'Publication date present, no update signal.', 'citability-score' ) );
 	}
 
 	private static function check_author_bio( $ctx ) {
 		$bio_len = mb_strlen( $ctx['author_bio'] );
 		if ( $bio_len >= 80 ) {
-			return self::pass( 2, sprintf( __( 'Bio autore: %d caratteri, sufficiente per E-E-A-T.', 'citability-score' ), $bio_len ) );
+			return self::pass( 2, sprintf( __( 'Author bio: %d characters, enough for authority.', 'citability-score' ), $bio_len ) );
 		}
 		if ( $bio_len > 0 ) {
-			return self::pass( 1, __( 'Bio autore presente ma troppo breve (target ≥80 caratteri).', 'citability-score' ) );
+			return self::pass( 1, __( 'Author bio present but too short (target ≥80 characters).', 'citability-score' ) );
 		}
-		return self::pass( 0, __( 'Bio autore vuota: aggiorna il profilo utente WordPress.', 'citability-score' ) );
+		return self::pass( 0, __( 'Author bio empty: update the WordPress user profile.', 'citability-score' ) );
 	}
 
 	private static function check_organization_schema( $ctx ) {
@@ -331,28 +344,28 @@ class On_Page_Scorer {
 			$types = self::extract_types( $b );
 			foreach ( $types as $t ) {
 				if ( in_array( $t, array( 'Organization', 'LocalBusiness', 'Restaurant', 'NewsMediaOrganization' ), true ) ) {
-					return self::pass( 2, sprintf( __( 'Schema %s presente.', 'citability-score' ), $t ) );
+					return self::pass( 2, sprintf( __( 'Business details present (%s).', 'citability-score' ), $t ) );
 				}
 			}
 		}
-		return self::pass( 0, __( 'Schema Organization/LocalBusiness assente. Usa il wizard JSON-LD.', 'citability-score' ) );
+		return self::pass( 0, __( 'Business details missing. Add them from the "Help AI understand this page" box.', 'citability-score' ) );
 	}
 
 	private static function check_word_count( $ctx ) {
 		$wc = $ctx['word_count'];
 		if ( $wc >= 1200 ) {
-			return self::pass( 2, sprintf( __( 'Lunghezza ottimale: %d parole.', 'citability-score' ), $wc ) );
+			return self::pass( 2, sprintf( __( 'Optimal length: %d words.', 'citability-score' ), $wc ) );
 		}
 		if ( $wc >= 600 ) {
-			return self::pass( 1, sprintf( __( 'Lunghezza accettabile: %d parole (target ≥1200).', 'citability-score' ), $wc ) );
+			return self::pass( 1, sprintf( __( 'Acceptable length: %d words (target ≥1200).', 'citability-score' ), $wc ) );
 		}
-		return self::pass( 0, sprintf( __( 'Solo %d parole: contenuto troppo corto per essere citato.', 'citability-score' ), $wc ) );
+		return self::pass( 0, sprintf( __( 'Only %d words: content too short to be cited.', 'citability-score' ), $wc ) );
 	}
 
 	private static function check_reading_level( $ctx ) {
 		$text = $ctx['content_text'];
 		if ( strlen( $text ) < 200 ) {
-			return self::pass( null, __( 'Testo troppo corto per calcolare leggibilità.', 'citability-score' ) );
+			return self::pass( null, __( 'Text too short to measure readability.', 'citability-score' ) );
 		}
 		// Flesch-Vacca approssimato per italiano.
 		$sentences = max( 1, preg_match_all( '/[.!?]+/u', $text ) );
@@ -363,12 +376,12 @@ class On_Page_Scorer {
 		$flesch    = 217 - ( 1.3 * $asl ) - ( 60 * $asw );
 
 		if ( $flesch >= 60 ) {
-			return self::pass( 2, sprintf( __( 'Leggibilità Flesch-IT %d: facile da parafrasare per un LLM.', 'citability-score' ), round( $flesch ) ) );
+			return self::pass( 2, sprintf( __( 'Readability %d: easy for an AI to paraphrase.', 'citability-score' ), round( $flesch ) ) );
 		}
 		if ( $flesch >= 40 ) {
-			return self::pass( 1, sprintf( __( 'Leggibilità Flesch-IT %d: leggermente complesso.', 'citability-score' ), round( $flesch ) ) );
+			return self::pass( 1, sprintf( __( 'Readability %d: slightly complex.', 'citability-score' ), round( $flesch ) ) );
 		}
-		return self::pass( 0, sprintf( __( 'Leggibilità Flesch-IT %d: troppo complesso.', 'citability-score' ), round( $flesch ) ) );
+		return self::pass( 0, sprintf( __( 'Readability %d: too complex.', 'citability-score' ), round( $flesch ) ) );
 	}
 
 	private static function count_syllables_it( $text ) {
@@ -381,23 +394,23 @@ class On_Page_Scorer {
 	private static function check_internal_links( $ctx ) {
 		$count = self::count_links_by_host( $ctx, true );
 		if ( $count >= 3 ) {
-			return self::pass( 2, sprintf( __( '%d link interni: ottima struttura.', 'citability-score' ), $count ) );
+			return self::pass( 2, sprintf( __( '%d internal links: great structure.', 'citability-score' ), $count ) );
 		}
 		if ( $count >= 1 ) {
-			return self::pass( 1, sprintf( __( '%d link interni (target ≥3).', 'citability-score' ), $count ) );
+			return self::pass( 1, sprintf( __( '%d internal links (target ≥3).', 'citability-score' ), $count ) );
 		}
-		return self::pass( 0, __( 'Nessun link interno: i contenuti correlati aumentano la citabilità.', 'citability-score' ) );
+		return self::pass( 0, __( 'No internal links: related content increases citability.', 'citability-score' ) );
 	}
 
 	private static function check_outbound_auth_links( $ctx ) {
 		$count = self::count_links_by_host( $ctx, false );
 		if ( $count >= 2 ) {
-			return self::pass( 2, sprintf( __( '%d link in uscita verso fonti esterne: buon segnale di expertise.', 'citability-score' ), $count ) );
+			return self::pass( 2, sprintf( __( '%d outbound links to external sources: a good expertise signal.', 'citability-score' ), $count ) );
 		}
 		if ( $count === 1 ) {
-			return self::pass( 1, __( '1 link in uscita: aggiungi almeno una fonte autorevole in più.', 'citability-score' ) );
+			return self::pass( 1, __( '1 outbound link: add at least one more authoritative source.', 'citability-score' ) );
 		}
-		return self::pass( 0, __( 'Nessun link in uscita: gli LLM premiano i contenuti che citano fonti.', 'citability-score' ) );
+		return self::pass( 0, __( 'No outbound links: AI rewards content that cites sources.', 'citability-score' ) );
 	}
 
 	private static function count_links_by_host( $ctx, $internal ) {
@@ -428,11 +441,11 @@ class On_Page_Scorer {
 
 	private static function check_image_alt( $ctx ) {
 		if ( ! $ctx['dom'] ) {
-			return self::pass( null, __( 'Nessuna immagine nel contenuto.', 'citability-score' ) );
+			return self::pass( null, __( 'No images in the content.', 'citability-score' ) );
 		}
 		$imgs = $ctx['dom']->getElementsByTagName( 'img' );
 		if ( $imgs->length === 0 ) {
-			return self::pass( null, __( 'Nessuna immagine nel contenuto.', 'citability-score' ) );
+			return self::pass( null, __( 'No images in the content.', 'citability-score' ) );
 		}
 		$missing = 0;
 		foreach ( $imgs as $img ) {
@@ -442,42 +455,42 @@ class On_Page_Scorer {
 			}
 		}
 		if ( 0 === $missing ) {
-			return self::pass( 2, sprintf( __( 'Tutte le %d immagini hanno alt text.', 'citability-score' ), $imgs->length ) );
+			return self::pass( 2, sprintf( __( 'All %d images have alt text.', 'citability-score' ), $imgs->length ) );
 		}
 		$ratio = 1 - ( $missing / $imgs->length );
 		if ( $ratio >= 0.6 ) {
-			return self::pass( 1, sprintf( __( '%d immagini su %d senza alt: completa il resto.', 'citability-score' ), $missing, $imgs->length ) );
+			return self::pass( 1, sprintf( __( '%d of %d images without alt text: complete the rest.', 'citability-score' ), $missing, $imgs->length ) );
 		}
-		return self::pass( 0, sprintf( __( '%d immagini su %d senza alt: aggiungi descrizioni.', 'citability-score' ), $missing, $imgs->length ) );
+		return self::pass( 0, sprintf( __( '%d of %d images without alt text: add descriptions.', 'citability-score' ), $missing, $imgs->length ) );
 	}
 
 	private static function check_faq_pattern( $ctx ) {
 		// 1) JSON-LD FAQPage salvato.
 		foreach ( $ctx['jsonld_blocks'] as $b ) {
 			if ( in_array( 'FAQPage', self::extract_types( $b ), true ) ) {
-				return self::pass( 2, __( 'Schema FAQPage presente.', 'citability-score' ) );
+				return self::pass( 2, __( 'Structured questions and answers present.', 'citability-score' ) );
 			}
 		}
 		// 2) Pattern naturale Q&A (almeno 2 domande nel testo).
 		$questions = preg_match_all( '/\?\s/u', $ctx['content_text'] );
 		if ( $questions >= 3 ) {
-			return self::pass( 1, sprintf( __( '%d domande nel testo: aggiungi schema FAQPage tramite wizard.', 'citability-score' ), $questions ) );
+			return self::pass( 1, sprintf( __( '%d questions in the text: turn them into a Q&A section from the "Help AI understand this page" box.', 'citability-score' ), $questions ) );
 		}
-		return self::pass( 0, __( 'Nessun pattern FAQ. Le FAQ aumentano molto la citabilità AI.', 'citability-score' ) );
+		return self::pass( 0, __( 'No Q&A pattern. Q&A greatly increases AI citability.', 'citability-score' ) );
 	}
 
 	private static function check_https( $ctx ) {
 		return is_ssl()
-			? self::pass( 2, __( 'Sito su HTTPS.', 'citability-score' ) )
-			: self::pass( 0, __( 'Sito non in HTTPS: requisito minimo per indicizzazione AI.', 'citability-score' ) );
+			? self::pass( 2, __( 'Secure connection active.', 'citability-score' ) )
+			: self::pass( 0, __( 'Connection not secure: a minimum requirement for AI.', 'citability-score' ) );
 	}
 
 	private static function check_canonical( $ctx ) {
 		// In WP il canonical è gestito da rel_canonical(); diamo per buono se non hai disabilitato.
 		if ( has_action( 'wp_head', 'rel_canonical' ) ) {
-			return self::pass( 2, __( 'Canonical URL gestito da WordPress core.', 'citability-score' ) );
+			return self::pass( 2, __( 'Official page address handled by WordPress.', 'citability-score' ) );
 		}
-		return self::pass( 1, __( 'Canonical non rilevato in wp_head: verifica il tema o il plugin SEO.', 'citability-score' ) );
+		return self::pass( 1, __( 'Official page address not detected: check your theme or SEO plugin.', 'citability-score' ) );
 	}
 
 	private static function check_citations( $ctx ) {
@@ -485,12 +498,12 @@ class On_Page_Scorer {
 		$ext_links = self::count_links_by_host( $ctx, false );
 		$markers   = preg_match_all( '/\b(fonte|secondo|stud(?:i|io)|ricerca|report)\b/iu', $ctx['content_text'] );
 		if ( $ext_links >= 2 && $markers >= 2 ) {
-			return self::pass( 2, __( 'Contenuto cita fonti esterne con frasi di attribuzione.', 'citability-score' ) );
+			return self::pass( 2, __( 'Content cites external sources with attribution phrases.', 'citability-score' ) );
 		}
 		if ( $ext_links >= 1 || $markers >= 1 ) {
-			return self::pass( 1, __( 'Citazioni deboli: aggiungi attribuzioni esplicite a fonti autorevoli.', 'citability-score' ) );
+			return self::pass( 1, __( 'Weak citations: add explicit attributions to authoritative sources.', 'citability-score' ) );
 		}
-		return self::pass( 0, __( 'Nessuna citazione esplicita: gli LLM cercano contenuti verificabili.', 'citability-score' ) );
+		return self::pass( 0, __( 'No explicit citations: AI looks for verifiable content.', 'citability-score' ) );
 	}
 
 	// ===== L1 — Open Graph (proxy: SEO plugin attivo + featured image). =====
@@ -498,31 +511,31 @@ class On_Page_Scorer {
 		$has_seo  = self::has_seo_plugin();
 		$has_thumb = has_post_thumbnail( $ctx['post']->ID );
 		if ( $has_seo && $has_thumb ) {
-			return self::pass( 2, __( 'Open Graph generato da un plugin SEO e immagine in evidenza impostata.', 'citability-score' ) );
+			return self::pass( 2, __( 'Social preview generated by your SEO plugin with a featured image.', 'citability-score' ) );
 		}
 		if ( $has_seo || $has_thumb ) {
-			return self::pass( 1, __( 'Open Graph parziale: serve sia un plugin SEO sia un\'immagine in evidenza.', 'citability-score' ) );
+			return self::pass( 1, __( 'Social preview incomplete: you need both an SEO plugin and a featured image.', 'citability-score' ) );
 		}
-		return self::pass( 0, __( 'Nessun Open Graph: i contenuti condivisi non avranno anteprime ricche.', 'citability-score' ) );
+		return self::pass( 0, __( 'No social preview: shared content won\'t show a rich preview.', 'citability-score' ) );
 	}
 
 	// ===== L2 — Twitter Card (proxy: plugin SEO attivo). =====
 	private static function check_twitter_card( $ctx ) {
 		if ( self::has_seo_plugin() ) {
 			return has_post_thumbnail( $ctx['post']->ID )
-				? self::pass( 2, __( 'Twitter Card generata dal plugin SEO con immagine.', 'citability-score' ) )
-				: self::pass( 1, __( 'Twitter Card senza immagine: imposta un\'immagine in evidenza.', 'citability-score' ) );
+				? self::pass( 2, __( 'X preview generated by the SEO plugin with an image.', 'citability-score' ) )
+				: self::pass( 1, __( 'X preview without an image: set a featured image.', 'citability-score' ) );
 		}
-		return self::pass( 0, __( 'Nessun plugin SEO rilevato: la Twitter Card non viene generata.', 'citability-score' ) );
+		return self::pass( 0, __( 'No SEO plugin detected: the X preview is not generated.', 'citability-score' ) );
 	}
 
 	// ===== L3 — Html lang attribute. =====
 	private static function check_html_lang( $ctx ) {
 		$lang = get_bloginfo( 'language' );
 		if ( ! empty( $lang ) ) {
-			return self::pass( 2, sprintf( __( 'Lingua del sito impostata su %s.', 'citability-score' ), $lang ) );
+			return self::pass( 2, sprintf( __( 'Site language set to %s.', 'citability-score' ), $lang ) );
 		}
-		return self::pass( 0, __( 'Lingua del sito non impostata: i motori AI non riconoscono il linguaggio del contenuto.', 'citability-score' ) );
+		return self::pass( 0, __( 'Site language not set: AI engines can\'t tell the content language.', 'citability-score' ) );
 	}
 
 	// ===== L4 — Robots indexable. =====
@@ -530,25 +543,25 @@ class On_Page_Scorer {
 		$post_id = $ctx['post']->ID;
 		$yoast_noindex = get_post_meta( $post_id, '_yoast_wpseo_meta-robots-noindex', true );
 		if ( '1' === (string) $yoast_noindex ) {
-			return self::pass( 0, __( 'Post marcato come noindex (Yoast): non sarà indicizzato.', 'citability-score' ) );
+			return self::pass( 0, __( 'Page hidden from search engines (Yoast setting): it won\'t appear in results.', 'citability-score' ) );
 		}
 		$rm_robots = get_post_meta( $post_id, 'rank_math_robots', true );
 		if ( is_array( $rm_robots ) && in_array( 'noindex', $rm_robots, true ) ) {
-			return self::pass( 0, __( 'Post marcato come noindex (RankMath): non sarà indicizzato.', 'citability-score' ) );
+			return self::pass( 0, __( 'Page hidden from search engines (RankMath setting): it won\'t appear in results.', 'citability-score' ) );
 		}
 		if ( 'publish' !== $ctx['post']->post_status ) {
-			return self::pass( 1, __( 'Post ancora in bozza: nessun motore lo indicizzerà finché non è pubblicato.', 'citability-score' ) );
+			return self::pass( 1, __( 'Page still a draft: no engine will show it until it is published.', 'citability-score' ) );
 		}
-		return self::pass( 2, __( 'Post indicizzabile dai motori di ricerca.', 'citability-score' ) );
+		return self::pass( 2, __( 'Page visible to search engines.', 'citability-score' ) );
 	}
 
 	// ===== L5 — Hreflang / sito multilingua. =====
 	private static function check_hreflang( $ctx ) {
 		if ( self::has_multilang_plugin() ) {
-			return self::pass( 2, __( 'Plugin multilingua attivo: hreflang vengono generati automaticamente.', 'citability-score' ) );
+			return self::pass( 2, __( 'Multilingual plugin active: other-language versions are linked automatically.', 'citability-score' ) );
 		}
 		// Controllo neutrale: se il sito è monolingua, è OK (non penalizzante).
-		return self::pass( null, __( 'Sito monolingua: hreflang non necessari.', 'citability-score' ) );
+		return self::pass( null, __( 'Single-language site: no other-language links needed.', 'citability-score' ) );
 	}
 
 	// ===== L6 — Article schema completo (author + publisher + image). =====
@@ -564,41 +577,41 @@ class On_Page_Scorer {
 			$has_image     = ! empty( $b['image'] );
 			$filled        = (int) $has_author + (int) $has_publisher + (int) $has_image;
 			if ( 3 === $filled ) {
-				return self::pass( 2, __( 'Markup Article completo (autore, publisher, immagine).', 'citability-score' ) );
+				return self::pass( 2, __( 'Complete article card (author, publisher, image).', 'citability-score' ) );
 			}
 			if ( $filled >= 1 ) {
-				return self::pass( 1, __( 'Markup Article parziale: completa autore, publisher e immagine.', 'citability-score' ) );
+				return self::pass( 1, __( 'Article card incomplete: add author, publisher and image.', 'citability-score' ) );
 			}
-			return self::pass( 0, __( 'Markup Article presente ma senza autore, publisher o immagine.', 'citability-score' ) );
+			return self::pass( 0, __( 'Article card present but without author, publisher or image.', 'citability-score' ) );
 		}
-		return self::pass( 0, __( 'Nessun markup Article salvato: usa il wizard JSON-LD.', 'citability-score' ) );
+		return self::pass( 0, __( 'No article card saved: add one from the "Help AI understand this page" box.', 'citability-score' ) );
 	}
 
 	// ===== L7 — Author external profile (sito web utente WP). =====
 	private static function check_author_external_profile( $ctx ) {
 		if ( ! $ctx['author'] ) {
-			return self::pass( 0, __( 'Autore non rilevato.', 'citability-score' ) );
+			return self::pass( 0, __( 'Author not detected.', 'citability-score' ) );
 		}
 		$url = trim( (string) $ctx['author']->user_url );
 		if ( '' === $url ) {
-			return self::pass( 0, __( 'Profilo autore senza sito web: aggiungi un URL nelle impostazioni utente per rafforzare E-E-A-T.', 'citability-score' ) );
+			return self::pass( 0, __( 'Author profile without a website: add a URL in the user settings to strengthen authority.', 'citability-score' ) );
 		}
-		// Valutiamo se è un dominio diverso da quello del sito (più utile per E-E-A-T).
+		// Valutiamo se è un dominio diverso da quello del sito (più utile per autorevolezza).
 		$host = wp_parse_url( $url, PHP_URL_HOST );
 		if ( $host && $host !== $ctx['home_host'] ) {
-			return self::pass( 2, sprintf( __( 'Profilo autore collegato a %s.', 'citability-score' ), $host ) );
+			return self::pass( 2, sprintf( __( 'Author profile linked to %s.', 'citability-score' ), $host ) );
 		}
-		return self::pass( 1, __( 'Profilo autore collegato allo stesso sito: meglio un profilo esterno (LinkedIn, sito personale).', 'citability-score' ) );
+		return self::pass( 1, __( 'Author profile linked to the same site: an external profile (LinkedIn, personal site) is better.', 'citability-score' ) );
 	}
 
 	// ===== L8 — Indice navigabile (heuristic: se molti H2 servirebbe un TOC). =====
 	private static function check_toc( $ctx ) {
 		if ( ! $ctx['dom'] ) {
-			return self::pass( null, __( 'Contenuto vuoto.', 'citability-score' ) );
+			return self::pass( null, __( 'Empty content.', 'citability-score' ) );
 		}
 		$h2 = $ctx['dom']->getElementsByTagName( 'h2' )->length;
 		if ( $h2 < 3 ) {
-			return self::pass( null, __( 'Articolo breve: l\'indice non è necessario.', 'citability-score' ) );
+			return self::pass( null, __( 'Short article: a table of contents isn\'t needed.', 'citability-score' ) );
 		}
 		$content = $ctx['content_raw'];
 		$has_toc = false !== stripos( $content, 'wp-block-table-of-contents' )
@@ -606,15 +619,15 @@ class On_Page_Scorer {
 			|| false !== stripos( $content, 'wp-block-rank-math-toc' )
 			|| false !== stripos( $content, 'class="ez-toc' );
 		if ( $has_toc ) {
-			return self::pass( 2, sprintf( __( 'Indice navigabile presente con %d sezioni.', 'citability-score' ), $h2 ) );
+			return self::pass( 2, sprintf( __( 'Table of contents present with %d sections.', 'citability-score' ), $h2 ) );
 		}
-		return self::pass( 0, sprintf( __( '%d sezioni H2 ma nessun indice: aggiungi un Table of Contents.', 'citability-score' ), $h2 ) );
+		return self::pass( 0, sprintf( __( '%d sections but no table of contents: add one.', 'citability-score' ), $h2 ) );
 	}
 
 	// ===== L9 — Apertura del contenuto (primo paragrafo informativo). =====
 	private static function check_first_paragraph( $ctx ) {
 		if ( ! $ctx['dom'] ) {
-			return self::pass( 0, __( 'Contenuto vuoto: aggiungi un\'apertura.', 'citability-score' ) );
+			return self::pass( 0, __( 'Empty content: add an opening.', 'citability-score' ) );
 		}
 		$first_p = null;
 		foreach ( $ctx['dom']->getElementsByTagName( 'p' ) as $p ) {
@@ -625,47 +638,47 @@ class On_Page_Scorer {
 			}
 		}
 		if ( null === $first_p ) {
-			return self::pass( 0, __( 'Nessun paragrafo trovato.', 'citability-score' ) );
+			return self::pass( 0, __( 'No paragraph found.', 'citability-score' ) );
 		}
 		$len = mb_strlen( $first_p );
 		if ( $len < 80 ) {
-			return self::pass( 0, sprintf( __( 'Apertura troppo corta (%d caratteri): inizia con un riassunto chiaro.', 'citability-score' ), $len ) );
+			return self::pass( 0, sprintf( __( 'Opening too short (%d characters): start with a clear summary.', 'citability-score' ), $len ) );
 		}
 		if ( $len > 400 ) {
-			return self::pass( 1, sprintf( __( 'Apertura molto lunga (%d caratteri): riducila a 1-2 frasi dense.', 'citability-score' ), $len ) );
+			return self::pass( 1, sprintf( __( 'Opening very long (%d characters): trim it to 1-2 dense sentences.', 'citability-score' ), $len ) );
 		}
 		// Se c'è una focus keyword, controlliamo che sia nel primo paragrafo.
 		if ( ! empty( $ctx['focus_kw'] ) && false === mb_stripos( $first_p, $ctx['focus_kw'] ) ) {
-			return self::pass( 1, __( 'L\'apertura non contiene la parola chiave principale.', 'citability-score' ) );
+			return self::pass( 1, __( 'The opening doesn\'t contain the main keyword.', 'citability-score' ) );
 		}
-		return self::pass( 2, __( 'Apertura informativa e di lunghezza adatta.', 'citability-score' ) );
+		return self::pass( 2, __( 'Informative opening of suitable length.', 'citability-score' ) );
 	}
 
 	// ===== L10 — Elenchi e bullet. =====
 	private static function check_lists( $ctx ) {
 		if ( ! $ctx['dom'] || $ctx['word_count'] < 300 ) {
-			return self::pass( null, __( 'Articolo breve: gli elenchi non sono necessari.', 'citability-score' ) );
+			return self::pass( null, __( 'Short article: lists aren\'t needed.', 'citability-score' ) );
 		}
 		$ul = $ctx['dom']->getElementsByTagName( 'ul' )->length;
 		$ol = $ctx['dom']->getElementsByTagName( 'ol' )->length;
 		$lists = $ul + $ol;
 		if ( $lists >= 2 ) {
-			return self::pass( 2, sprintf( __( 'Buon uso di elenchi: %d liste presenti.', 'citability-score' ), $lists ) );
+			return self::pass( 2, sprintf( __( 'Good use of lists: %d lists present.', 'citability-score' ), $lists ) );
 		}
 		if ( 1 === $lists ) {
-			return self::pass( 1, __( 'Una sola lista: aggiungine un\'altra per rendere il contenuto più scansionabile.', 'citability-score' ) );
+			return self::pass( 1, __( 'Only one list: add another to make the content easier to scan.', 'citability-score' ) );
 		}
-		return self::pass( 0, __( 'Nessun elenco puntato/numerato: gli LLM preferiscono contenuti strutturati.', 'citability-score' ) );
+		return self::pass( 0, __( 'No bulleted/numbered lists: AI prefers structured content.', 'citability-score' ) );
 	}
 
 	// ===== L11 — Immagini con dimensioni esplicite (CLS-friendly). =====
 	private static function check_image_dimensions( $ctx ) {
 		if ( ! $ctx['dom'] ) {
-			return self::pass( null, __( 'Nessuna immagine nel contenuto.', 'citability-score' ) );
+			return self::pass( null, __( 'No images in the content.', 'citability-score' ) );
 		}
 		$imgs = $ctx['dom']->getElementsByTagName( 'img' );
 		if ( $imgs->length === 0 ) {
-			return self::pass( null, __( 'Nessuna immagine nel contenuto.', 'citability-score' ) );
+			return self::pass( null, __( 'No images in the content.', 'citability-score' ) );
 		}
 		$missing = 0;
 		foreach ( $imgs as $img ) {
@@ -676,50 +689,50 @@ class On_Page_Scorer {
 			}
 		}
 		if ( 0 === $missing ) {
-			return self::pass( 2, sprintf( __( 'Tutte le %d immagini hanno dimensioni esplicite.', 'citability-score' ), $imgs->length ) );
+			return self::pass( 2, sprintf( __( 'All %d images have explicit dimensions.', 'citability-score' ), $imgs->length ) );
 		}
 		$ratio = 1 - ( $missing / $imgs->length );
 		if ( $ratio >= 0.6 ) {
-			return self::pass( 1, sprintf( __( '%d immagini su %d senza dimensioni: completa il resto.', 'citability-score' ), $missing, $imgs->length ) );
+			return self::pass( 1, sprintf( __( '%d of %d images without dimensions: complete the rest.', 'citability-score' ), $missing, $imgs->length ) );
 		}
-		return self::pass( 0, sprintf( __( '%d immagini su %d senza dimensioni: peggiorano l\'esperienza visiva.', 'citability-score' ), $missing, $imgs->length ) );
+		return self::pass( 0, sprintf( __( '%d of %d images without dimensions: they hurt the visual experience.', 'citability-score' ), $missing, $imgs->length ) );
 	}
 
 	// ===== L12 — Forma passiva (italiano, euristico). =====
 	private static function check_passive_voice( $ctx ) {
 		$text = $ctx['content_text'];
 		if ( strlen( $text ) < 200 ) {
-			return self::pass( null, __( 'Testo troppo corto per analizzare la forma passiva.', 'citability-score' ) );
+			return self::pass( null, __( 'Text too short to analyze passive voice.', 'citability-score' ) );
 		}
 		$sentences = max( 1, preg_match_all( '/[.!?]+/u', $text ) );
 		// Pattern italiano: ausiliare + participio passato (es. "è stato pubblicato", "viene utilizzato").
 		$passive = preg_match_all( '/\b(è|sono|era|erano|fu|furono|sarà|saranno|viene|vengono|veniva|venivano|venne|vennero|venuto|venuti|stato|stati|state|state)\s+[a-zàèéìòù]+(at[oiea]|ut[oiea]|it[oiea])\b/iu', $text );
 		$ratio = $passive / $sentences;
 		if ( $ratio <= 0.10 ) {
-			return self::pass( 2, sprintf( __( 'Stile diretto: solo %d%% delle frasi in forma passiva.', 'citability-score' ), round( $ratio * 100 ) ) );
+			return self::pass( 2, sprintf( __( 'Direct style: only %d%% of sentences in passive voice.', 'citability-score' ), round( $ratio * 100 ) ) );
 		}
 		if ( $ratio <= 0.20 ) {
-			return self::pass( 1, sprintf( __( '%d%% delle frasi in forma passiva: prova a riscriverne qualcuna in attiva.', 'citability-score' ), round( $ratio * 100 ) ) );
+			return self::pass( 1, sprintf( __( '%d%% of sentences in passive voice: try rewriting some in active voice.', 'citability-score' ), round( $ratio * 100 ) ) );
 		}
-		return self::pass( 0, sprintf( __( '%d%% delle frasi in forma passiva: troppe per essere citate dagli LLM.', 'citability-score' ), round( $ratio * 100 ) ) );
+		return self::pass( 0, sprintf( __( '%d%% of sentences in passive voice: too many to be cited by AI.', 'citability-score' ), round( $ratio * 100 ) ) );
 	}
 
 	// ===== L13 — Lunghezza media delle frasi. =====
 	private static function check_sentence_length( $ctx ) {
 		$text = $ctx['content_text'];
 		if ( strlen( $text ) < 200 ) {
-			return self::pass( null, __( 'Testo troppo corto per misurare la lunghezza delle frasi.', 'citability-score' ) );
+			return self::pass( null, __( 'Text too short to measure sentence length.', 'citability-score' ) );
 		}
 		$sentences = max( 1, preg_match_all( '/[.!?]+/u', $text ) );
 		$words     = max( 1, str_word_count( $text ) );
 		$asl       = $words / $sentences;
 		if ( $asl <= 20 ) {
-			return self::pass( 2, sprintf( __( 'Frasi brevi (media %d parole): facili da citare in modo testuale.', 'citability-score' ), round( $asl ) ) );
+			return self::pass( 2, sprintf( __( 'Short sentences (avg %d words): easy to quote verbatim.', 'citability-score' ), round( $asl ) ) );
 		}
 		if ( $asl <= 28 ) {
-			return self::pass( 1, sprintf( __( 'Frasi medie (%d parole): spezza quelle più lunghe.', 'citability-score' ), round( $asl ) ) );
+			return self::pass( 1, sprintf( __( 'Medium sentences (%d words): break up the longer ones.', 'citability-score' ), round( $asl ) ) );
 		}
-		return self::pass( 0, sprintf( __( 'Frasi troppo lunghe (%d parole): un LLM faticherà a estrarre risposte brevi.', 'citability-score' ), round( $asl ) ) );
+		return self::pass( 0, sprintf( __( 'Sentences too long (%d words): an AI will struggle to extract short answers.', 'citability-score' ), round( $asl ) ) );
 	}
 
 	// ===== L14 — Anno corrente nel testo (segnale di attualità). =====
@@ -728,18 +741,18 @@ class On_Page_Scorer {
 		$previous = $current - 1;
 		$text = $ctx['content_text'];
 		if ( preg_match( '/\b' . $current . '\b/', $text ) ) {
-			return self::pass( 2, sprintf( __( 'L\'anno %d è menzionato nel testo.', 'citability-score' ), $current ) );
+			return self::pass( 2, sprintf( __( 'The year %d is mentioned in the text.', 'citability-score' ), $current ) );
 		}
 		if ( preg_match( '/\b' . $previous . '\b/', $text ) ) {
-			return self::pass( 1, sprintf( __( 'Citato l\'anno %d ma non %d: aggiorna i riferimenti temporali.', 'citability-score' ), $previous, $current ) );
+			return self::pass( 1, sprintf( __( 'Year %d cited but not %d: update the time references.', 'citability-score' ), $previous, $current ) );
 		}
-		return self::pass( 0, __( 'Nessun riferimento all\'anno corrente: gli LLM penalizzano contenuti percepiti come datati.', 'citability-score' ) );
+		return self::pass( 0, __( 'No reference to the current year: AI penalizes content that seems outdated.', 'citability-score' ) );
 	}
 
 	// ===== L15 — Lunghezza dei paragrafi (no muri di testo). =====
 	private static function check_paragraph_length( $ctx ) {
 		if ( ! $ctx['dom'] ) {
-			return self::pass( null, __( 'Contenuto vuoto.', 'citability-score' ) );
+			return self::pass( null, __( 'Empty content.', 'citability-score' ) );
 		}
 		$total = 0;
 		$too_long = 0;
@@ -754,15 +767,15 @@ class On_Page_Scorer {
 			}
 		}
 		if ( 0 === $total ) {
-			return self::pass( null, __( 'Nessun paragrafo nel contenuto.', 'citability-score' ) );
+			return self::pass( null, __( 'No paragraph in the content.', 'citability-score' ) );
 		}
 		if ( 0 === $too_long ) {
-			return self::pass( 2, sprintf( __( 'Paragrafi ben dimensionati (%d totali).', 'citability-score' ), $total ) );
+			return self::pass( 2, sprintf( __( 'Well-sized paragraphs (%d total).', 'citability-score' ), $total ) );
 		}
 		if ( $too_long <= 2 ) {
-			return self::pass( 1, sprintf( __( '%d paragrafi troppo lunghi: spezza i muri di testo.', 'citability-score' ), $too_long ) );
+			return self::pass( 1, sprintf( __( '%d paragraphs too long: break up the walls of text.', 'citability-score' ), $too_long ) );
 		}
-		return self::pass( 0, sprintf( __( '%d paragrafi troppo lunghi: il contenuto è difficile da scansionare.', 'citability-score' ), $too_long ) );
+		return self::pass( 0, sprintf( __( '%d paragraphs too long: the content is hard to scan.', 'citability-score' ), $too_long ) );
 	}
 
 	// ===== Helper plugin detection. =====
@@ -810,7 +823,7 @@ class On_Page_Scorer {
 				continue;
 			}
 			$out[] = array(
-				'label'    => isset( $labels[ $pid ] ) ? $labels[ $pid ] : __( 'Controllo', 'citability-score' ),
+				'label'    => isset( $labels[ $pid ] ) ? $labels[ $pid ] : __( 'Check', 'citability-score' ),
 				'severity' => 0 === $r['value'] ? 'high' : 'medium',
 				'message'  => $r['reason'],
 			);

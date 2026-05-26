@@ -58,14 +58,14 @@ class Admin_Page {
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html__( 'Citability Score', 'citability-score' ); ?></h1>
-			<p><?php echo esc_html__( 'Ottimizza i contenuti del tuo sito per essere citati dai modelli AI (ChatGPT, Gemini, Claude, Perplexity).', 'citability-score' ); ?></p>
+			<p><?php echo esc_html__( 'Optimize your site content to be cited by AI models (ChatGPT, Gemini, Claude, Perplexity).', 'citability-score' ); ?></p>
 
 			<form method="post" action="options.php">
 				<?php settings_fields( 'citability_score' ); ?>
 				<table class="form-table" role="presentation">
 					<tr>
 						<th scope="row">
-							<label for="citability_api_key"><?php echo esc_html__( 'API key CitationRate (opzionale)', 'citability-score' ); ?></label>
+							<label for="citability_api_key"><?php echo esc_html__( 'CitationRate API key (optional)', 'citability-score' ); ?></label>
 						</th>
 						<td>
 							<input
@@ -77,13 +77,13 @@ class Admin_Page {
 								placeholder="cr_..."
 							/>
 							<p class="description">
-								<?php echo esc_html__( 'Collega un account CitationRate per sbloccare l\'audit completo (oltre 50 parametri, backlinks, citation rate AI reale). Senza chiave il plugin funziona in modalità lite.', 'citability-score' ); ?>
+								<?php echo esc_html__( 'Connect a CitationRate account to unlock the full audit (50+ parameters, backlinks, real AI citation rate). Without a key the plugin runs in lite mode.', 'citability-score' ); ?>
 							</p>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row">
-							<label for="citability_default_schema"><?php echo esc_html__( 'Schema JSON-LD di default', 'citability-score' ); ?></label>
+							<label for="citability_default_schema"><?php echo esc_html__( 'Default JSON-LD schema', 'citability-score' ); ?></label>
 						</th>
 						<td>
 							<select id="citability_default_schema" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[default_schema]">

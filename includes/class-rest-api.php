@@ -22,16 +22,26 @@ class Rest_Api {
 			self::NS,
 			'/score/(?P<post_id>\d+)',
 			array(
-				'methods'             => \WP_REST_Server::READABLE,
-				'callback'            => array( __CLASS__, 'get_score' ),
-				'args'                => array(
+				// GET → scores the last SAVED revision (kept for back-compat).
+				// POST → scores the LIVE editor content sent in the body, so the
+				// sidebar updates on every edit without needing a save.
+				array(
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => array( __CLASS__, 'get_score' ),
+					'permission_callback' => array( __CLASS__, 'can_edit_post' ),
+				),
+				array(
+					'methods'             => \WP_REST_Server::CREATABLE,
+					'callback'            => array( __CLASS__, 'get_score' ),
+					'permission_callback' => array( __CLASS__, 'can_edit_post' ),
+				),
+				'args' => array(
 					'post_id' => array(
 						'validate_callback' => static function ( $v ) {
 							return is_numeric( $v );
 						},
 					),
 				),
-				'permission_callback' => array( __CLASS__, 'can_edit_post' ),
 			)
 		);
 
@@ -77,7 +87,24 @@ class Rest_Api {
 	}
 
 	public static function get_score( $request ) {
-		$result = On_Page_Scorer::score_post( (int) $request['post_id'] );
+		// On POST, score the live editor content carried in the JSON body
+		// instead of the saved DB version. Title/content/excerpt only — meta
+		// (author bio, JSON-LD) is still read from the saved post by ID.
+		$overrides = array();
+		$params    = $request->get_json_params();
+		if ( is_array( $params ) ) {
+			if ( isset( $params['content'] ) ) {
+				$overrides['post_content'] = (string) $params['content'];
+			}
+			if ( isset( $params['title'] ) ) {
+				$overrides['post_title'] = (string) $params['title'];
+			}
+			if ( isset( $params['excerpt'] ) ) {
+				$overrides['post_excerpt'] = (string) $params['excerpt'];
+			}
+		}
+
+		$result = On_Page_Scorer::score_post( (int) $request['post_id'], $overrides );
 		if ( is_wp_error( $result ) ) {
 			return $result;
 		}
