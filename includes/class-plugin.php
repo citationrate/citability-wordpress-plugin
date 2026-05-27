@@ -12,8 +12,8 @@ defined( 'ABSPATH' ) || exit;
 final class Plugin {
 
 	public static function boot() {
-		load_plugin_textdomain( 'citability-score', false, dirname( plugin_basename( CITABILITY_SCORE_FILE ) ) . '/languages' );
-
+		// Translations are loaded automatically by WordPress for .org-hosted
+		// plugins since 4.6 (this plugin requires 6.0), so no load_plugin_textdomain() needed.
 		Rest_Api::register();
 		Admin_Page::register();
 		Meta_Box::register();
@@ -43,7 +43,7 @@ final class Plugin {
 	}
 
 	public static function enqueue_editor_assets() {
-		$handle = 'citability-score-editor';
+		$handle = 'citationrate-ai-visibility-editor';
 		$src    = CITABILITY_SCORE_URL . 'assets/js/editor-sidebar.js';
 		$deps   = array(
 			'wp-plugins',
@@ -56,10 +56,10 @@ final class Plugin {
 		);
 
 		wp_enqueue_script( $handle, $src, $deps, self::asset_version( 'assets/js/editor-sidebar.js' ), true );
-		wp_set_script_translations( $handle, 'citability-score', CITABILITY_SCORE_PATH . 'languages' );
+		wp_set_script_translations( $handle, 'citationrate-ai-visibility', CITABILITY_SCORE_PATH . 'languages' );
 
 		wp_enqueue_style(
-			'citability-score-editor',
+			'citationrate-ai-visibility-editor',
 			CITABILITY_SCORE_URL . 'assets/css/widget.css',
 			array(),
 			self::asset_version( 'assets/css/widget.css' )
@@ -78,6 +78,14 @@ final class Plugin {
 		if ( ! is_array( $decoded ) || JSON_ERROR_NONE !== json_last_error() ) {
 			return;
 		}
-		echo "\n<script type=\"application/ld+json\">" . wp_json_encode( $decoded, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . "</script>\n";
+		// JSON_HEX_TAG escapes < and > to < / > so a value containing
+		// "</script>" cannot break out of the inline JSON-LD script tag.
+		$encoded = wp_json_encode( $decoded, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP );
+		if ( false === $encoded ) {
+			return;
+		}
+		// wp_print_inline_script_tag() is a safe output function (recognized by
+		// the escaping sniffs); the payload is already neutralized above.
+		wp_print_inline_script_tag( $encoded, array( 'type' => 'application/ld+json' ) );
 	}
 }

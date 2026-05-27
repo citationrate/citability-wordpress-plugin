@@ -81,7 +81,8 @@ class Json_Ld_Wizard {
 			} else {
 				$headline = sprintf(
 					/* translators: %s: data odierna */
-					__( 'Article of %s', 'citability-score' ),
+					// translators: %s replaced at runtime with dynamic values.
+					__( 'Article of %s', 'citationrate-ai-visibility' ),
 					date_i18n( get_option( 'date_format' ) )
 				);
 			}
@@ -92,8 +93,8 @@ class Json_Ld_Wizard {
 			'@type'    => $type,
 		);
 
-		// Auto-estrazione dal contenuto reale della pagina (salvato).
-		$content_html = apply_filters( 'the_content', (string) $post->post_content );
+		// Auto-extraction from the saved page content; reusing the WordPress core hook.
+		$content_html = apply_filters( 'the_content', (string) $post->post_content ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$dom          = self::content_dom( $content_html );
 		$desc         = self::clean_text( $post->post_excerpt );
 		if ( '' === $desc ) {
@@ -481,22 +482,24 @@ class Json_Ld_Wizard {
 
 	public static function validate( $data ) {
 		if ( ! is_array( $data ) ) {
-			return new \WP_Error( 'invalid', __( 'Invalid payload.', 'citability-score' ) );
+			return new \WP_Error( 'invalid', __( 'Invalid payload.', 'citationrate-ai-visibility' ) );
 		}
 		if ( empty( $data['@context'] ) ) {
 			$data['@context'] = 'https://schema.org';
 		}
 		if ( empty( $data['@type'] ) ) {
-			return new \WP_Error( 'invalid_type', __( 'Missing @type.', 'citability-score' ) );
+			return new \WP_Error( 'invalid_type', __( 'Missing @type.', 'citationrate-ai-visibility' ) );
 		}
 		$type = is_array( $data['@type'] ) ? reset( $data['@type'] ) : $data['@type'];
 		if ( ! in_array( $type, self::SUPPORTED_TYPES, true ) ) {
-			return new \WP_Error( 'unsupported_type', sprintf( __( 'Unsupported type: %s', 'citability-score' ), $type ) );
+			// translators: %s replaced at runtime with dynamic values.
+			return new \WP_Error( 'unsupported_type', sprintf( __( 'Unsupported type: %s', 'citationrate-ai-visibility' ), $type ) );
 		}
 
 		$errors = self::required_fields_for( $type, $data );
 		if ( ! empty( $errors ) ) {
-			return new \WP_Error( 'missing_fields', sprintf( __( 'Missing required fields: %s', 'citability-score' ), implode( ', ', $errors ) ) );
+			// translators: %s replaced at runtime with dynamic values.
+			return new \WP_Error( 'missing_fields', sprintf( __( 'Missing required fields: %s', 'citationrate-ai-visibility' ), implode( ', ', $errors ) ) );
 		}
 
 		return $data;

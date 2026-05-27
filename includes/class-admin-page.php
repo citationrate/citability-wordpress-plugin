@@ -20,10 +20,10 @@ class Admin_Page {
 
 	public static function menu() {
 		add_options_page(
-			__( 'Citability Score', 'citability-score' ),
-			__( 'Citability Score', 'citability-score' ),
+			__( 'CitationRate AI Visibility', 'citationrate-ai-visibility' ),
+			__( 'CitationRate AI Visibility', 'citationrate-ai-visibility' ),
 			'manage_options',
-			'citability-score',
+			'citationrate-ai-visibility',
 			array( __CLASS__, 'render' )
 		);
 	}
@@ -44,9 +44,13 @@ class Admin_Page {
 	}
 
 	public static function sanitize( $input ) {
+		$schema = isset( $input['default_schema'] ) ? sanitize_text_field( $input['default_schema'] ) : 'Article';
+		if ( ! in_array( $schema, Json_Ld_Wizard::SUPPORTED_TYPES, true ) ) {
+			$schema = 'Article';
+		}
 		return array(
 			'api_key'        => isset( $input['api_key'] ) ? sanitize_text_field( $input['api_key'] ) : '',
-			'default_schema' => isset( $input['default_schema'] ) ? sanitize_text_field( $input['default_schema'] ) : 'Article',
+			'default_schema' => $schema,
 		);
 	}
 
@@ -57,15 +61,15 @@ class Admin_Page {
 		$opts = get_option( self::OPTION_KEY, array() );
 		?>
 		<div class="wrap">
-			<h1><?php echo esc_html__( 'Citability Score', 'citability-score' ); ?></h1>
-			<p><?php echo esc_html__( 'Optimize your site content to be cited by AI models (ChatGPT, Gemini, Claude, Perplexity).', 'citability-score' ); ?></p>
+			<h1><?php echo esc_html__( 'CitationRate AI Visibility', 'citationrate-ai-visibility' ); ?></h1>
+			<p><?php echo esc_html__( 'Optimize your site content to be cited by AI models (ChatGPT, Gemini, Claude, Perplexity).', 'citationrate-ai-visibility' ); ?></p>
 
 			<form method="post" action="options.php">
 				<?php settings_fields( 'citability_score' ); ?>
 				<table class="form-table" role="presentation">
 					<tr>
 						<th scope="row">
-							<label for="citability_api_key"><?php echo esc_html__( 'CitationRate API key (optional)', 'citability-score' ); ?></label>
+							<label for="citability_api_key"><?php echo esc_html__( 'CitationRate API key (optional)', 'citationrate-ai-visibility' ); ?></label>
 						</th>
 						<td>
 							<input
@@ -77,13 +81,13 @@ class Admin_Page {
 								placeholder="cr_..."
 							/>
 							<p class="description">
-								<?php echo esc_html__( 'Connect a CitationRate account to unlock the full audit (50+ parameters, backlinks, real AI citation rate). Without a key the plugin runs in lite mode.', 'citability-score' ); ?>
+								<?php echo esc_html__( 'Connect a CitationRate account to unlock the full audit (50+ parameters, backlinks, real AI citation rate). Without a key the plugin runs in lite mode.', 'citationrate-ai-visibility' ); ?>
 							</p>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row">
-							<label for="citability_default_schema"><?php echo esc_html__( 'Default JSON-LD schema', 'citability-score' ); ?></label>
+							<label for="citability_default_schema"><?php echo esc_html__( 'Default JSON-LD schema', 'citationrate-ai-visibility' ); ?></label>
 						</th>
 						<td>
 							<select id="citability_default_schema" name="<?php echo esc_attr( self::OPTION_KEY ); ?>[default_schema]">

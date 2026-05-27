@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Citability Score\n"
+"Project-Id-Version: CitationRate AI Visibility\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it_IT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Domain: citability-score\n"
+"X-Domain: citationrate-ai-visibility\n"
 
 msgid "Citability Score"
 msgstr "Citability Score"
@@ -148,8 +148,8 @@ msgstr "Titolo %d caratteri, nel range ottimale (30-65)."
 msgid "Title %d characters, acceptable but outside the ideal range (30-65)."
 msgstr "Titolo %d caratteri, accettabile ma fuori dal range ideale (30-65)."
 
-msgid "Title %d characters: too %s."
-msgstr "Titolo %d caratteri: troppo %s."
+msgid "Title %1$d characters: too %2$s."
+msgstr "Titolo %1$d caratteri: troppo %2$s."
 
 msgid "short"
 msgstr "corto"
@@ -181,8 +181,8 @@ msgstr "%d tag H1 nel corpo: usa H2/H3 per le sezioni."
 msgid "No headings found in the content."
 msgstr "Nessun heading rilevato nel contenuto."
 
-msgid "Good subheading structure (%d main, %d secondary)."
-msgstr "Gerarchia heading buona: %d H2, %d H3."
+msgid "Good subheading structure (%1$d main, %2$d secondary)."
+msgstr "Gerarchia heading buona: %1$d H2, %2$d H3."
 
 msgid "Few subheadings: add 2-3 to structure the content."
 msgstr "Pochi heading: aggiungi 2-3 H2 per strutturare il contenuto."
@@ -277,11 +277,11 @@ msgstr "Nessuna immagine nel contenuto."
 msgid "All %d images have alt text."
 msgstr "Tutte le %d immagini hanno alt text."
 
-msgid "%d of %d images without alt text: complete the rest."
-msgstr "%d immagini su %d senza alt: completa il resto."
+msgid "%1$d of %2$d images without alt text: complete the rest."
+msgstr "%1$d immagini su %2$d senza alt: completa il resto."
 
-msgid "%d of %d images without alt text: add descriptions."
-msgstr "%d immagini su %d senza alt: aggiungi descrizioni."
+msgid "%1$d of %2$d images without alt text: add descriptions."
+msgstr "%1$d immagini su %2$d senza alt: aggiungi descrizioni."
 
 msgid "Structured questions and answers present."
 msgstr "Schema FAQPage presente."
@@ -421,11 +421,11 @@ msgstr "Nessun elenco puntato/numerato: le AI preferiscono contenuti strutturati
 msgid "All %d images have explicit dimensions."
 msgstr "Tutte le %d immagini hanno dimensioni esplicite."
 
-msgid "%d of %d images without dimensions: complete the rest."
-msgstr "%d immagini su %d senza dimensioni: completa il resto."
+msgid "%1$d of %2$d images without dimensions: complete the rest."
+msgstr "%1$d immagini su %2$d senza dimensioni: completa il resto."
 
-msgid "%d of %d images without dimensions: they hurt the visual experience."
-msgstr "%d immagini su %d senza dimensioni: peggiorano l'esperienza visiva."
+msgid "%1$d of %2$d images without dimensions: they hurt the visual experience."
+msgstr "%1$d immagini su %2$d senza dimensioni: peggiorano l'esperienza visiva."
 
 msgid "Text too short to analyze passive voice."
 msgstr "Testo troppo corto per analizzare la forma passiva."
@@ -454,8 +454,8 @@ msgstr "Frasi troppo lunghe (%d parole): un'AI faticherà a estrarre risposte br
 msgid "The year %d is mentioned in the text."
 msgstr "L'anno %d è menzionato nel testo."
 
-msgid "Year %d cited but not %d: update the time references."
-msgstr "Citato l'anno %d ma non %d: aggiorna i riferimenti temporali."
+msgid "Year %1$d cited but not %2$d: update the time references."
+msgstr "Citato l'anno %1$d ma non %2$d: aggiorna i riferimenti temporali."
 
 msgid "No reference to the current year: AI penalizes content that seems outdated."
 msgstr "Nessun riferimento all'anno corrente: le AI penalizzano contenuti percepiti come datati."

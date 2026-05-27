@@ -12,44 +12,44 @@
 	// Le entità di settore (Restaurant, MedicalClinic, ...) restano nel backend ma
 	// non sono più offerte qui: descrivono l'attività, non il contenuto della pagina.
 	const SCHEMA_TYPES = [
-		{ label: __( 'Choose…', 'citability-score' ), value: '' },
-		{ label: __( 'Article', 'citability-score' ), value: 'Article' },
-		{ label: __( 'Blog post', 'citability-score' ), value: 'BlogPosting' },
-		{ label: __( 'News', 'citability-score' ), value: 'NewsArticle' },
-		{ label: __( 'FAQ page (questions and answers)', 'citability-score' ), value: 'FAQPage' },
-		{ label: __( 'Tutorial guide', 'citability-score' ), value: 'HowTo' },
-		{ label: __( 'Recipe', 'citability-score' ), value: 'Recipe' },
-		{ label: __( 'Review', 'citability-score' ), value: 'Review' },
-		{ label: __( 'Video', 'citability-score' ), value: 'VideoObject' },
-		{ label: __( 'Product page', 'citability-score' ), value: 'Product' },
-		{ label: __( 'Service', 'citability-score' ), value: 'Service' },
-		{ label: __( 'Event', 'citability-score' ), value: 'Event' },
-		{ label: __( 'Course / lesson', 'citability-score' ), value: 'Course' },
-		{ label: __( 'Job posting', 'citability-score' ), value: 'JobPosting' },
+		{ label: __( 'Choose…', 'citationrate-ai-visibility' ), value: '' },
+		{ label: __( 'Article', 'citationrate-ai-visibility' ), value: 'Article' },
+		{ label: __( 'Blog post', 'citationrate-ai-visibility' ), value: 'BlogPosting' },
+		{ label: __( 'News', 'citationrate-ai-visibility' ), value: 'NewsArticle' },
+		{ label: __( 'FAQ page (questions and answers)', 'citationrate-ai-visibility' ), value: 'FAQPage' },
+		{ label: __( 'Tutorial guide', 'citationrate-ai-visibility' ), value: 'HowTo' },
+		{ label: __( 'Recipe', 'citationrate-ai-visibility' ), value: 'Recipe' },
+		{ label: __( 'Review', 'citationrate-ai-visibility' ), value: 'Review' },
+		{ label: __( 'Video', 'citationrate-ai-visibility' ), value: 'VideoObject' },
+		{ label: __( 'Product page', 'citationrate-ai-visibility' ), value: 'Product' },
+		{ label: __( 'Service', 'citationrate-ai-visibility' ), value: 'Service' },
+		{ label: __( 'Event', 'citationrate-ai-visibility' ), value: 'Event' },
+		{ label: __( 'Course / lesson', 'citationrate-ai-visibility' ), value: 'Course' },
+		{ label: __( 'Job posting', 'citationrate-ai-visibility' ), value: 'JobPosting' },
 	];
 
 	const BAND_LABELS = {
-		red: __( 'Critical', 'citability-score' ),
-		yellow: __( 'Needs work', 'citability-score' ),
-		blue: __( 'Fair', 'citability-score' ),
-		sage: __( 'Good', 'citability-score' ),
-		green: __( 'Excellent', 'citability-score' ),
+		red: __( 'Critical', 'citationrate-ai-visibility' ),
+		yellow: __( 'Needs work', 'citationrate-ai-visibility' ),
+		blue: __( 'Fair', 'citationrate-ai-visibility' ),
+		sage: __( 'Good', 'citationrate-ai-visibility' ),
+		green: __( 'Excellent', 'citationrate-ai-visibility' ),
 	};
 
 	const MACRO_LABELS = {
-		coherence: __( 'Coherence', 'citability-score' ),
-		identity: __( 'Identity', 'citability-score' ),
-		content: __( 'Content', 'citability-score' ),
-		performance: __( 'Performance', 'citability-score' ),
-		reputation: __( 'Reputation', 'citability-score' ),
+		coherence: __( 'Coherence', 'citationrate-ai-visibility' ),
+		identity: __( 'Identity', 'citationrate-ai-visibility' ),
+		content: __( 'Content', 'citationrate-ai-visibility' ),
+		performance: __( 'Performance', 'citationrate-ai-visibility' ),
+		reputation: __( 'Reputation', 'citationrate-ai-visibility' ),
 	};
 
 	const MACRO_DESC = {
-		coherence: __( 'How clearly the title and subheadings show what the page is about.', 'citability-score' ),
-		identity: __( 'How well the HTML code communicates who you are and what you do.', 'citability-score' ),
-		content: __( 'How complete, readable and well-organized the text is.', 'citability-score' ),
-		performance: __( 'How technically sound and secure the page is.', 'citability-score' ),
-		reputation: __( 'How much the content cites reliable sources and links to external sites.', 'citability-score' ),
+		coherence: __( 'How clearly the title and subheadings show what the page is about.', 'citationrate-ai-visibility' ),
+		identity: __( 'How well the HTML code communicates who you are and what you do.', 'citationrate-ai-visibility' ),
+		content: __( 'How complete, readable and well-organized the text is.', 'citationrate-ai-visibility' ),
+		performance: __( 'How technically sound and secure the page is.', 'citationrate-ai-visibility' ),
+		reputation: __( 'How much the content cites reliable sources and links to external sites.', 'citationrate-ai-visibility' ),
 	};
 
 	// URL piattaforma con UTM per CTA (registrati lato piattaforma: GA4 + signup attribution).
@@ -61,73 +61,73 @@
 	// --- JSON-LD guided form helpers -------------------------------------
 	// Etichette in lingua utente per le chiavi schema.org (mai mostrate grezze).
 	const FIELD_LABELS = {
-		headline: __( 'Title', 'citability-score' ),
-		name: __( 'Name', 'citability-score' ),
-		title: __( 'Title', 'citability-score' ),
-		description: __( 'Description', 'citability-score' ),
-		reviewBody: __( 'Review text', 'citability-score' ),
-		author: __( 'Author', 'citability-score' ),
-		datePublished: __( 'Publication date', 'citability-score' ),
-		dateModified: __( 'Last updated', 'citability-score' ),
-		datePosted: __( 'Publication date', 'citability-score' ),
-		uploadDate: __( 'Upload date', 'citability-score' ),
-		startDate: __( 'Start date', 'citability-score' ),
-		endDate: __( 'End date', 'citability-score' ),
-		image: __( 'Image (URL)', 'citability-score' ),
-		thumbnailUrl: __( 'Thumbnail (URL)', 'citability-score' ),
-		contentUrl: __( 'Video URL', 'citability-score' ),
-		embedUrl: __( 'Embed URL', 'citability-score' ),
-		publisher: __( 'Publisher', 'citability-score' ),
-		mainEntityOfPage: __( 'Page URL', 'citability-score' ),
-		recipeIngredient: __( 'Ingredients', 'citability-score' ),
-		recipeInstructions: __( 'Recipe steps', 'citability-score' ),
-		step: __( 'Steps', 'citability-score' ),
-		text: __( 'Text', 'citability-score' ),
-		mainEntity: __( 'Questions and answers', 'citability-score' ),
-		acceptedAnswer: __( 'Answer', 'citability-score' ),
-		brand: __( 'Brand', 'citability-score' ),
-		offers: __( 'Offer / price', 'citability-score' ),
-		price: __( 'Price', 'citability-score' ),
-		priceCurrency: __( 'Currency', 'citability-score' ),
-		availability: __( 'Availability', 'citability-score' ),
-		url: __( 'URL', 'citability-score' ),
-		telephone: __( 'Phone', 'citability-score' ),
-		priceRange: __( 'Price range', 'citability-score' ),
-		address: __( 'Address', 'citability-score' ),
-		streetAddress: __( 'Street', 'citability-score' ),
-		addressLocality: __( 'City', 'citability-score' ),
-		addressRegion: __( 'Province/Region', 'citability-score' ),
-		postalCode: __( 'Postal code', 'citability-score' ),
-		addressCountry: __( 'Country', 'citability-score' ),
-		serviceType: __( 'Service type', 'citability-score' ),
-		areaServed: __( 'Area served', 'citability-score' ),
-		provider: __( 'Provider', 'citability-score' ),
-		itemReviewed: __( 'What you\'re reviewing', 'citability-score' ),
-		reviewRating: __( 'Rating', 'citability-score' ),
-		ratingValue: __( 'Rating', 'citability-score' ),
-		bestRating: __( 'Max rating', 'citability-score' ),
-		worstRating: __( 'Min rating', 'citability-score' ),
-		employmentType: __( 'Contract type', 'citability-score' ),
-		hiringOrganization: __( 'Company', 'citability-score' ),
-		jobLocation: __( 'Job location', 'citability-score' ),
-		location: __( 'Location', 'citability-score' ),
-		eventStatus: __( 'Event status', 'citability-score' ),
-		applicationCategory: __( 'App category', 'citability-score' ),
-		operatingSystem: __( 'Operating system', 'citability-score' ),
-		sameAs: __( 'Profiles / links', 'citability-score' ),
-		logo: __( 'Logo (URL)', 'citability-score' ),
+		headline: __( 'Title', 'citationrate-ai-visibility' ),
+		name: __( 'Name', 'citationrate-ai-visibility' ),
+		title: __( 'Title', 'citationrate-ai-visibility' ),
+		description: __( 'Description', 'citationrate-ai-visibility' ),
+		reviewBody: __( 'Review text', 'citationrate-ai-visibility' ),
+		author: __( 'Author', 'citationrate-ai-visibility' ),
+		datePublished: __( 'Publication date', 'citationrate-ai-visibility' ),
+		dateModified: __( 'Last updated', 'citationrate-ai-visibility' ),
+		datePosted: __( 'Publication date', 'citationrate-ai-visibility' ),
+		uploadDate: __( 'Upload date', 'citationrate-ai-visibility' ),
+		startDate: __( 'Start date', 'citationrate-ai-visibility' ),
+		endDate: __( 'End date', 'citationrate-ai-visibility' ),
+		image: __( 'Image (URL)', 'citationrate-ai-visibility' ),
+		thumbnailUrl: __( 'Thumbnail (URL)', 'citationrate-ai-visibility' ),
+		contentUrl: __( 'Video URL', 'citationrate-ai-visibility' ),
+		embedUrl: __( 'Embed URL', 'citationrate-ai-visibility' ),
+		publisher: __( 'Publisher', 'citationrate-ai-visibility' ),
+		mainEntityOfPage: __( 'Page URL', 'citationrate-ai-visibility' ),
+		recipeIngredient: __( 'Ingredients', 'citationrate-ai-visibility' ),
+		recipeInstructions: __( 'Recipe steps', 'citationrate-ai-visibility' ),
+		step: __( 'Steps', 'citationrate-ai-visibility' ),
+		text: __( 'Text', 'citationrate-ai-visibility' ),
+		mainEntity: __( 'Questions and answers', 'citationrate-ai-visibility' ),
+		acceptedAnswer: __( 'Answer', 'citationrate-ai-visibility' ),
+		brand: __( 'Brand', 'citationrate-ai-visibility' ),
+		offers: __( 'Offer / price', 'citationrate-ai-visibility' ),
+		price: __( 'Price', 'citationrate-ai-visibility' ),
+		priceCurrency: __( 'Currency', 'citationrate-ai-visibility' ),
+		availability: __( 'Availability', 'citationrate-ai-visibility' ),
+		url: __( 'URL', 'citationrate-ai-visibility' ),
+		telephone: __( 'Phone', 'citationrate-ai-visibility' ),
+		priceRange: __( 'Price range', 'citationrate-ai-visibility' ),
+		address: __( 'Address', 'citationrate-ai-visibility' ),
+		streetAddress: __( 'Street', 'citationrate-ai-visibility' ),
+		addressLocality: __( 'City', 'citationrate-ai-visibility' ),
+		addressRegion: __( 'Province/Region', 'citationrate-ai-visibility' ),
+		postalCode: __( 'Postal code', 'citationrate-ai-visibility' ),
+		addressCountry: __( 'Country', 'citationrate-ai-visibility' ),
+		serviceType: __( 'Service type', 'citationrate-ai-visibility' ),
+		areaServed: __( 'Area served', 'citationrate-ai-visibility' ),
+		provider: __( 'Provider', 'citationrate-ai-visibility' ),
+		itemReviewed: __( 'What you\'re reviewing', 'citationrate-ai-visibility' ),
+		reviewRating: __( 'Rating', 'citationrate-ai-visibility' ),
+		ratingValue: __( 'Rating', 'citationrate-ai-visibility' ),
+		bestRating: __( 'Max rating', 'citationrate-ai-visibility' ),
+		worstRating: __( 'Min rating', 'citationrate-ai-visibility' ),
+		employmentType: __( 'Contract type', 'citationrate-ai-visibility' ),
+		hiringOrganization: __( 'Company', 'citationrate-ai-visibility' ),
+		jobLocation: __( 'Job location', 'citationrate-ai-visibility' ),
+		location: __( 'Location', 'citationrate-ai-visibility' ),
+		eventStatus: __( 'Event status', 'citationrate-ai-visibility' ),
+		applicationCategory: __( 'App category', 'citationrate-ai-visibility' ),
+		operatingSystem: __( 'Operating system', 'citationrate-ai-visibility' ),
+		sameAs: __( 'Profiles / links', 'citationrate-ai-visibility' ),
+		logo: __( 'Logo (URL)', 'citationrate-ai-visibility' ),
 	};
 	const FIELD_PH = {
-		price: __( 'e.g. 29.90', 'citability-score' ),
-		ratingValue: __( 'e.g. 4.5', 'citability-score' ),
-		startDate: __( 'e.g. 2026-06-15 20:00', 'citability-score' ),
-		endDate: __( 'e.g. 2026-06-15 23:00', 'citability-score' ),
-		priceCurrency: __( 'EUR', 'citability-score' ),
-		telephone: __( 'e.g. +39 02 1234567', 'citability-score' ),
-		employmentType: __( 'e.g. FULL_TIME', 'citability-score' ),
-		serviceType: __( 'e.g. Tax consulting', 'citability-score' ),
-		applicationCategory: __( 'e.g. BusinessApplication', 'citability-score' ),
-		operatingSystem: __( 'e.g. iOS, Android, Web', 'citability-score' ),
+		price: __( 'e.g. 29.90', 'citationrate-ai-visibility' ),
+		ratingValue: __( 'e.g. 4.5', 'citationrate-ai-visibility' ),
+		startDate: __( 'e.g. 2026-06-15 20:00', 'citationrate-ai-visibility' ),
+		endDate: __( 'e.g. 2026-06-15 23:00', 'citationrate-ai-visibility' ),
+		priceCurrency: __( 'EUR', 'citationrate-ai-visibility' ),
+		telephone: __( 'e.g. +39 02 1234567', 'citationrate-ai-visibility' ),
+		employmentType: __( 'e.g. FULL_TIME', 'citationrate-ai-visibility' ),
+		serviceType: __( 'e.g. Tax consulting', 'citationrate-ai-visibility' ),
+		applicationCategory: __( 'e.g. BusinessApplication', 'citationrate-ai-visibility' ),
+		operatingSystem: __( 'e.g. iOS, Android, Web', 'citationrate-ai-visibility' ),
 	};
 
 	// Immutable set at a key/index path.
@@ -150,9 +150,9 @@
 		return '';
 	}
 	function contextLabel( parentType, key ) {
-		if ( parentType === 'Question' && key === 'name' ) return __( 'Question', 'citability-score' );
-		if ( parentType === 'Answer' && key === 'text' ) return __( 'Answer', 'citability-score' );
-		if ( parentType === 'HowToStep' && key === 'text' ) return __( 'Step description', 'citability-score' );
+		if ( parentType === 'Question' && key === 'name' ) return __( 'Question', 'citationrate-ai-visibility' );
+		if ( parentType === 'Answer' && key === 'text' ) return __( 'Answer', 'citationrate-ai-visibility' );
+		if ( parentType === 'HowToStep' && key === 'text' ) return __( 'Step description', 'citationrate-ai-visibility' );
 		return FIELD_LABELS[ key ] || key;
 	}
 
@@ -218,7 +218,7 @@
 				path: `/citability/v1/jsonld/${ postId }/template?type=${ encodeURIComponent( t ) }`,
 			} ).then( ( r ) => {
 				setJsonld( r.data );
-				setMessage( __( 'Fill in the fields and save.', 'citability-score' ) );
+				setMessage( __( 'Fill in the fields and save.', 'citationrate-ai-visibility' ) );
 			} );
 		};
 
@@ -232,11 +232,11 @@
 				data: { data: jsonld },
 			} )
 				.then( () => {
-					setMessage( __( 'JSON-LD saved. It will be injected into the page <head>.', 'citability-score' ) );
+					setMessage( __( 'JSON-LD saved. It will be injected into the page <head>.', 'citationrate-ai-visibility' ) );
 					runScore();
 				} )
 				.catch( ( err ) => {
-					setMessage( __( 'Error: ', 'citability-score' ) + ( err.message || 'unknown' ) );
+					setMessage( __( 'Error: ', 'citationrate-ai-visibility' ) + ( err.message || 'unknown' ) );
 				} )
 				.finally( () => setSavingJsonld( false ) );
 		};
@@ -247,7 +247,7 @@
 				method: 'DELETE',
 			} ).then( () => {
 				setJsonld( null );
-				setMessage( __( 'JSON-LD removed.', 'citability-score' ) );
+				setMessage( __( 'JSON-LD removed.', 'citationrate-ai-visibility' ) );
 				runScore();
 			} );
 		};
@@ -257,7 +257,7 @@
 				return el( 'div', { className: 'citability-sidebar' }, el( Spinner ) );
 			}
 			if ( ! result ) {
-				return el( 'p', null, __( 'Can\'t calculate the score.', 'citability-score' ) );
+				return el( 'p', null, __( 'Can\'t calculate the score.', 'citationrate-ai-visibility' ) );
 			}
 			const band = result.band || 'red';
 			return el(
@@ -265,18 +265,18 @@
 				{ className: 'citability-sidebar' },
 				el(
 					'div',
-					{ className: `citability-score-card citability-band-${ band }` },
+					{ className: `citationrate-ai-visibility-card citability-band-${ band }` },
 					el(
 						Tooltip,
-						{ text: __( 'The Citability Score measures how citable your brand is by conversational AI engines', 'citability-score' ) },
-						el( 'span', { className: 'citability-info', tabIndex: 0, role: 'note', 'aria-label': __( 'What is the Citability Score', 'citability-score' ) }, 'i' )
+						{ text: __( 'The Citability Score measures how citable your brand is by conversational AI engines', 'citationrate-ai-visibility' ) },
+						el( 'span', { className: 'citability-info', tabIndex: 0, role: 'note', 'aria-label': __( 'What is the Citability Score', 'citationrate-ai-visibility' ) }, 'i' )
 					),
-					el( 'span', { className: 'citability-score-number' }, result.score ),
+					el( 'span', { className: 'citationrate-ai-visibility-number' }, result.score ),
 					el( 'div', null,
-						el( 'div', { style: { fontSize: 12, opacity: 0.8 } }, __( 'out of 100', 'citability-score' ) ),
+						el( 'div', { style: { fontSize: 12, opacity: 0.8 } }, __( 'out of 100', 'citationrate-ai-visibility' ) ),
 						el( 'strong', null, BAND_LABELS[ band ] || band ),
 						result.meta && el( 'div', { className: 'citability-params' },
-							`${ result.meta.params_checked } / ${ result.meta.params_total } ` + __( 'parameters', 'citability-score' )
+							`${ result.meta.params_checked } / ${ result.meta.params_total } ` + __( 'parameters', 'citationrate-ai-visibility' )
 						)
 					)
 				),
@@ -312,7 +312,7 @@
 					el(
 						'div',
 						{ className: 'citability-suggestions' },
-						el( 'h3', { style: { fontSize: 13, margin: '12px 0 6px' } }, __( 'What to improve', 'citability-score' ) ),
+						el( 'h3', { style: { fontSize: 13, margin: '12px 0 6px' } }, __( 'What to improve', 'citationrate-ai-visibility' ) ),
 						result.suggestions.slice( 0, 8 ).map( ( s, i ) =>
 							el(
 								'div',
@@ -341,7 +341,7 @@
 			return el(
 				'div',
 				{ className: 'citability-cr' },
-				el( 'h3', { className: 'citability-cr-title' }, __( 'Citation Rate', 'citability-score' ) ),
+				el( 'h3', { className: 'citability-cr-title' }, __( 'Citation Rate', 'citationrate-ai-visibility' ) ),
 				el(
 					'div',
 					{ className: 'citability-cr-figure' },
@@ -349,9 +349,9 @@
 					el(
 						'p',
 						{ className: 'citability-cr-note' },
-						__( 'Out of 10 queries in your industry you\'d be cited about', 'citability-score' ) +
+						__( 'Out of 10 queries in your industry you\'d be cited about', 'citationrate-ai-visibility' ) +
 							` ${ perTen } ` +
-							__( 'times. Discover your real citations with the AI Visibility Index (AVI).', 'citability-score' )
+							__( 'times. Discover your real citations with the AI Visibility Index (AVI).', 'citationrate-ai-visibility' )
 					)
 				),
 				el(
@@ -362,7 +362,7 @@
 						target: '_blank',
 						rel: 'noopener noreferrer',
 					},
-					__( 'Click here to discover your Citation Rate', 'citability-score' )
+					__( 'Click here to discover your Citation Rate', 'citationrate-ai-visibility' )
 				)
 			);
 		};
@@ -374,15 +374,15 @@
 				'div',
 				{ className: 'citability-upgrade' },
 				el( 'p', { className: 'citability-upgrade-text' },
-					el( 'strong', null, __( 'This is a partial on-page score.', 'citability-score' ) ),
-					' ' + __( 'It only analyzes this page\'s content. Run the full audit for free on the CitationRate platform to make your brand citable by AI.', 'citability-score' )
+					el( 'strong', null, __( 'This is a partial on-page score.', 'citationrate-ai-visibility' ) ),
+					' ' + __( 'It only analyzes this page\'s content. Run the full audit for free on the CitationRate platform to make your brand citable by AI.', 'citationrate-ai-visibility' )
 				),
 				el( 'a', {
 					className: 'citability-upgrade-cta',
 					href: utmLink( PLATFORM_URL, 'complete_score' ),
 					target: '_blank',
 					rel: 'noopener noreferrer',
-				}, __( 'Complete your score for free', 'citability-score' ) )
+				}, __( 'Complete your score for free', 'citationrate-ai-visibility' ) )
 			);
 		};
 
@@ -434,7 +434,7 @@
 					el( Button, {
 						key: 'add', variant: 'secondary', isSmall: true,
 						onClick: () => setJsonld( setIn( jsonld, path, value.concat( [ blankLike( value.length ? value[ 0 ] : '' ) ] ) ) ),
-					}, __( '+ Add', 'citability-score' ) )
+					}, __( '+ Add', 'citationrate-ai-visibility' ) )
 				);
 			}
 
@@ -457,9 +457,9 @@
 		const renderJsonldWizard = () => {
 			return el(
 				PanelBody,
-				{ title: __( 'Help AI understand this page', 'citability-score' ), initialOpen: false },
+				{ title: __( 'Help AI understand this page', 'citationrate-ai-visibility' ), initialOpen: false },
 				el( SelectControl, {
-					label: __( 'What is this page about?', 'citability-score' ),
+					label: __( 'What is this page about?', 'citationrate-ai-visibility' ),
 					value: schema,
 					options: SCHEMA_TYPES,
 					onChange: ( v ) => {
@@ -472,8 +472,8 @@
 				jsonld && el(
 					'div',
 					{ style: { display: 'flex', gap: 8, marginBottom: 8 } },
-					el( Button, { variant: 'primary', isBusy: savingJsonld, onClick: saveJsonld }, __( 'Save to <head>', 'citability-score' ) ),
-					el( Button, { variant: 'tertiary', isDestructive: true, onClick: removeJsonld }, __( 'Remove', 'citability-score' ) )
+					el( Button, { variant: 'primary', isBusy: savingJsonld, onClick: saveJsonld }, __( 'Save to <head>', 'citationrate-ai-visibility' ) ),
+					el( Button, { variant: 'tertiary', isDestructive: true, onClick: removeJsonld }, __( 'Remove', 'citationrate-ai-visibility' ) )
 				),
 				message && el( 'p', { style: { fontSize: 12 } }, message ),
 				jsonld && el(
@@ -485,7 +485,7 @@
 					variant: 'link', isSmall: true,
 					style: { marginTop: 8 },
 					onClick: () => setShowRaw( ! showRaw ),
-				}, showRaw ? __( 'Hide JSON', 'citability-score' ) : __( 'Show JSON (advanced)', 'citability-score' ) ),
+				}, showRaw ? __( 'Hide JSON', 'citationrate-ai-visibility' ) : __( 'Show JSON (advanced)', 'citationrate-ai-visibility' ) ),
 				jsonld && showRaw && el(
 					'pre',
 					{ className: 'citability-jsonld-block' },
@@ -500,13 +500,13 @@
 			el(
 				PluginSidebarMoreMenuItem,
 				{ target: 'citability-sidebar' },
-				__( 'Citability Score', 'citability-score' )
+				__( 'Citability Score', 'citationrate-ai-visibility' )
 			),
 			el(
 				PluginSidebar,
 				{
 					name: 'citability-sidebar',
-					title: __( 'Citability Score', 'citability-score' ),
+					title: __( 'Citability Score', 'citationrate-ai-visibility' ),
 					icon: 'chart-area',
 				},
 				renderScore(),
@@ -514,7 +514,7 @@
 				renderCitationRate(),
 				renderJsonldWizard(),
 				el( 'p', { className: 'citability-powered' },
-					__( 'powered by', 'citability-score' ) + ' ',
+					__( 'powered by', 'citationrate-ai-visibility' ) + ' ',
 					el( 'a', {
 						href: utmLink( PLATFORM_URL, 'powered_by' ),
 						target: '_blank',
@@ -525,5 +525,5 @@
 		);
 	}
 
-	registerPlugin( 'citability-score', { render: CitabilitySidebar } );
+	registerPlugin( 'citationrate-ai-visibility', { render: CitabilitySidebar } );
 } )( window.wp );

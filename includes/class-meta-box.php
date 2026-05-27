@@ -17,8 +17,8 @@ class Meta_Box {
 
 	public static function add() {
 		add_meta_box(
-			'citability-score-box',
-			__( 'Citability Score', 'citability-score' ),
+			'citationrate-ai-visibility-box',
+			__( 'Citability Score', 'citationrate-ai-visibility' ),
 			array( __CLASS__, 'render' ),
 			array( 'post', 'page' ),
 			'side',
@@ -36,11 +36,11 @@ class Meta_Box {
 		$band  = $result['band'];
 		?>
 		<div class="citability-meta-box">
-			<div class="citability-score citability-band-<?php echo esc_attr( $band ); ?>">
+			<div class="citationrate-ai-visibility citability-band-<?php echo esc_attr( $band ); ?>">
 				<strong><?php echo esc_html( $score ); ?></strong> / 100
 			</div>
 			<p class="description">
-				<?php echo esc_html__( 'Lite on-page estimate. Open the Block Editor for the full breakdown and the JSON-LD wizard.', 'citability-score' ); ?>
+				<?php echo esc_html__( 'Lite on-page estimate. Open the Block Editor for the full breakdown and the JSON-LD wizard.', 'citationrate-ai-visibility' ); ?>
 			</p>
 		</div>
 		<?php

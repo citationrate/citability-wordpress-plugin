@@ -1,10 +1,10 @@
-=== Citability Score ===
+=== CitationRate AI Visibility ===
 Contributors: citationrate
 Tags: ai, seo, schema, json-ld, chatgpt
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.3.0
+Stable tag: 0.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ AI citability score in the Block Editor plus a guided JSON-LD wizard. Optimize c
 
 == Description ==
 
-Citability Score measures how "citable" your WordPress content is by ChatGPT, Gemini, Claude, Perplexity and Google AI Overviews — right inside the Block Editor, as you write.
+CitationRate AI Visibility measures how "citable" your WordPress content is by ChatGPT, Gemini, Claude, Perplexity and Google AI Overviews — giving each page a Citability Score right inside the Block Editor, as you write.
 
 The plugin computes a 0–100 score locally from 33 on-page signals (heading structure, page description, length, readability, image alt text, internal/external links, schema markup, source citations and more) and offers a guided JSON-LD wizard to generate the correct Schema.org markup.
 
@@ -31,7 +31,7 @@ The lite score is computed entirely on your own WordPress. No external API calls
 
 == External services ==
 
-In its default (lite) mode, Citability Score does **not** send any data to external services — the score is computed locally on your site.
+In its default (lite) mode, CitationRate AI Visibility does **not** send any data to external services — the score is computed locally on your site.
 
 The plugin links out to the CitationRate platform for optional features. These are plain links that open in a new tab when the user clicks them; the plugin itself does not transmit any data:
 
@@ -40,14 +40,14 @@ The plugin links out to the CitationRate platform for optional features. These a
 
 An optional CitationRate API key field is available in the settings for a future full-audit integration. Only if you enter a key and use that feature would page content be sent to the CitationRate backend for analysis. Without a key, nothing is sent.
 
-CitationRate Terms: https://citationrate.com/terms — Privacy Policy: https://citationrate.com/privacy
+CitationRate Privacy Policy: https://citationrate.com/privacy/
 
 == Installation ==
 
-1. Upload the `citability-score` folder to `/wp-content/plugins/`, or go to Plugins → Add New → Upload Plugin and upload the ZIP.
+1. Upload the `citationrate-ai-visibility` folder to `/wp-content/plugins/`, or go to Plugins → Add New → Upload Plugin and upload the ZIP.
 2. Activate the plugin from the **Plugins** menu.
 3. Open any post in the Block Editor: the Citability sidebar appears automatically.
-4. (Optional) Go to **Settings → Citability Score** to connect a CitationRate account.
+4. (Optional) Go to **Settings → CitationRate AI Visibility** to connect a CitationRate account.
 
 == Frequently Asked Questions ==
 
@@ -77,6 +77,13 @@ English and Italian. The plugin follows your WordPress language (Settings → Ge
 
 == Changelog ==
 
+= 0.3.2 =
+* Renamed to "CitationRate AI Visibility".
+* Hardened the inline JSON-LD output so values can never break out of the script tag.
+* Validated the default schema setting against the supported types.
+* Internationalization compliance: added translators comments and ordered placeholders.
+* Housekeeping: rely on WordPress core to load translations.
+
 = 0.3.0 =
 * Internationalized: source strings in English (default) plus an Italian translation (it_IT). The language follows the WordPress setting.
 * Updated the "Identity" macro-area description.
@@ -95,6 +102,9 @@ English and Italian. The plugin follows your WordPress language (Settings → Ge
 * First release: lite scorer, JSON-LD wizard, Block Editor sidebar.
 
 == Upgrade Notice ==
+
+= 0.3.2 =
+Renamed to CitationRate AI Visibility, plus security, i18n and validation hardening.
 
 = 0.3.0 =
 Now available in English and Italian (follows your WordPress language).
