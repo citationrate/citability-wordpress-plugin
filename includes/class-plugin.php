@@ -58,6 +58,15 @@ final class Plugin {
 		wp_enqueue_script( $handle, $src, $deps, self::asset_version( 'assets/js/editor-sidebar.js' ), true );
 		wp_set_script_translations( $handle, 'citationrate-ai-visibility', CITABILITY_SCORE_PATH . 'languages' );
 
+		// Tell the editor whether the site owner opted in to anonymous usage
+		// stats. When false, the script never emits a single telemetry call.
+		$opts = get_option( Admin_Page::OPTION_KEY, array() );
+		wp_add_inline_script(
+			$handle,
+			'window.CitationRateWidget = ' . wp_json_encode( array( 'telemetry' => ! empty( $opts['share_usage'] ) ) ) . ';',
+			'before'
+		);
+
 		wp_enqueue_style(
 			'citationrate-ai-visibility-editor',
 			CITABILITY_SCORE_URL . 'assets/css/widget.css',

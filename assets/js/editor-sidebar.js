@@ -58,6 +58,36 @@
 		base + ( base.indexOf( '?' ) === -1 ? '?' : '&' ) +
 		'utm_source=wp_plugin&utm_medium=widget&utm_campaign=' + campaign;
 
+	// --- Opt-in anonymous telemetry (see readme "Privacy") ----------------
+	// Fires ONLY when the site owner enabled the toggle (default off). Sends an
+	// allow-listed event + coarse buckets to the plugin's OWN REST route, which
+	// forwards it server-side. No PII, no URL, no page content ever leaves the
+	// site; the visitor's browser never contacts CitationRate.
+	const TELEMETRY_ON = !! ( window.CitationRateWidget && window.CitationRateWidget.telemetry );
+	const _trackedOnce = {};
+	const scoreBand = ( s ) => {
+		s = Number( s ) || 0;
+		if ( s <= 30 ) return '0-30';
+		if ( s <= 50 ) return '31-50';
+		if ( s <= 70 ) return '51-70';
+		if ( s <= 85 ) return '71-85';
+		return '86-100';
+	};
+	const track = ( event, props, once ) => {
+		if ( ! TELEMETRY_ON ) return;
+		if ( once ) {
+			if ( _trackedOnce[ event ] ) return;
+			_trackedOnce[ event ] = true;
+		}
+		try {
+			apiFetch( {
+				path: '/citability/v1/telemetry',
+				method: 'POST',
+				data: { event: event, props: props || {} },
+			} ).catch( () => {} );
+		} catch ( e ) {}
+	};
+
 	// --- JSON-LD guided form helpers -------------------------------------
 	// Etichette in lingua utente per le chiavi schema.org (mai mostrate grezze).
 	const FIELD_LABELS = {
@@ -180,7 +210,10 @@
 				method: 'POST',
 				data: { content: editedContent, title: editedTitle, excerpt: editedExcerpt },
 			} )
-				.then( ( data ) => setResult( data ) )
+				.then( ( data ) => {
+					setResult( data );
+					track( 'widget_loaded', { score_band: scoreBand( data && data.score ) }, true );
+				} )
 				.catch( () => setResult( null ) )
 				.finally( () => setLoading( false ) );
 		}, [ postId, editedContent, editedTitle, editedExcerpt ] );
@@ -233,6 +266,7 @@
 			} )
 				.then( () => {
 					setMessage( __( 'JSON-LD saved. It will be injected into the page <head>.', 'citationrate-ai-visibility' ) );
+					track( 'jsonld_saved', { schema: jsonld && jsonld[ '@type' ] } );
 					runScore();
 				} )
 				.catch( ( err ) => {
@@ -248,6 +282,7 @@
 			} ).then( () => {
 				setJsonld( null );
 				setMessage( __( 'JSON-LD removed.', 'citationrate-ai-visibility' ) );
+				track( 'jsonld_removed', {} );
 				runScore();
 			} );
 		};
@@ -361,6 +396,7 @@
 						href: aviUrl,
 						target: '_blank',
 						rel: 'noopener noreferrer',
+						onClick: () => track( 'cta_clicked', { cta: 'avi' } ),
 					},
 					__( 'Click here to discover your Citation Rate', 'citationrate-ai-visibility' )
 				)
@@ -382,6 +418,7 @@
 					href: utmLink( PLATFORM_URL, 'complete_score' ),
 					target: '_blank',
 					rel: 'noopener noreferrer',
+					onClick: () => track( 'cta_clicked', { cta: 'complete_score' } ),
 				}, __( 'Complete your score for free', 'citationrate-ai-visibility' ) )
 			);
 		};
@@ -457,7 +494,11 @@
 		const renderJsonldWizard = () => {
 			return el(
 				PanelBody,
-				{ title: __( 'Help AI understand this page', 'citationrate-ai-visibility' ), initialOpen: false },
+				{
+					title: __( 'Help AI understand this page', 'citationrate-ai-visibility' ),
+					initialOpen: false,
+					onToggle: ( open ) => { if ( open ) track( 'wizard_opened', {}, true ); },
+				},
 				el( SelectControl, {
 					label: __( 'What is this page about?', 'citationrate-ai-visibility' ),
 					value: schema,
@@ -466,6 +507,7 @@
 						setSchema( v );
 						if ( v ) {
 							loadTemplate( v );
+							track( 'schema_selected', { schema: v } );
 						}
 					},
 				} ),

@@ -11,7 +11,21 @@ defined( 'ABSPATH' ) || exit;
 
 class Admin_Page {
 
-	const OPTION_KEY = 'citability_score_settings';
+	const OPTION_KEY  = 'citability_score_settings';
+	const SITE_ID_KEY = 'citability_score_site_id';
+
+	/**
+	 * Random per-install id used only to de-duplicate installs in anonymous
+	 * usage stats. Generated lazily, never linkable to a person or domain.
+	 */
+	public static function site_id() {
+		$id = get_option( self::SITE_ID_KEY, '' );
+		if ( empty( $id ) ) {
+			$id = wp_generate_uuid4();
+			update_option( self::SITE_ID_KEY, $id, false );
+		}
+		return $id;
+	}
 
 	public static function register() {
 		add_action( 'admin_menu', array( __CLASS__, 'menu' ) );
@@ -38,6 +52,7 @@ class Admin_Page {
 				'default'           => array(
 					'api_key'        => '',
 					'default_schema' => 'Article',
+					'share_usage'    => 0,
 				),
 			)
 		);
@@ -51,6 +66,7 @@ class Admin_Page {
 		return array(
 			'api_key'        => isset( $input['api_key'] ) ? sanitize_text_field( $input['api_key'] ) : '',
 			'default_schema' => $schema,
+			'share_usage'    => empty( $input['share_usage'] ) ? 0 : 1,
 		);
 	}
 
@@ -97,6 +113,24 @@ class Admin_Page {
 									</option>
 								<?php endforeach; ?>
 							</select>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php echo esc_html__( 'Usage statistics', 'citationrate-ai-visibility' ); ?></th>
+						<td>
+							<label for="citability_share_usage">
+								<input
+									type="checkbox"
+									id="citability_share_usage"
+									name="<?php echo esc_attr( self::OPTION_KEY ); ?>[share_usage]"
+									value="1"
+									<?php checked( ! empty( $opts['share_usage'] ) ); ?>
+								/>
+								<?php echo esc_html__( 'Help improve the plugin by sharing anonymous usage statistics', 'citationrate-ai-visibility' ); ?>
+							</label>
+							<p class="description">
+								<?php echo esc_html__( 'Optional and off by default. When enabled, the plugin sends a random, anonymous install ID together with coarse usage events (e.g. which content type you pick in the wizard, your score band as a range, and which buttons you click). It never sends your IP address, your page URLs or any page content, and you can turn it off at any time.', 'citationrate-ai-visibility' ); ?>
+							</p>
 						</td>
 					</tr>
 				</table>

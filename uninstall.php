@@ -9,6 +9,7 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 delete_option( 'citability_score_settings' );
 delete_option( 'citability_score_onboarded' );
+delete_option( 'citability_score_site_id' );
 
 $citability_score_posts = get_posts(
 	array(

@@ -4,7 +4,7 @@ Tags: ai, seo, schema, json-ld, chatgpt
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.3.2
+Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,7 +57,11 @@ No. It is an on-page estimate based on 33 of the 56 full parameters. It does not
 
 = Does the plugin send my content to third parties? =
 
-No. In the default mode everything is computed locally. Content is only sent if you configure the optional CitationRate API key.
+No. In the default mode everything is computed locally. Your page content is only sent if you configure the optional CitationRate API key.
+
+= Does the plugin track me? =
+
+Only if you choose to. Under Settings → CitationRate AI Visibility there is an "anonymous usage statistics" checkbox that is off by default. When you turn it on, the plugin sends a random, anonymous install ID together with coarse usage events (for example which content type you pick in the wizard, your score as a band such as 51-70, and which buttons you click). It never sends your IP address, your page URLs or any page content, and you can turn it off again at any time. See "External services" below.
 
 = Does it support Yoast and Rank Math? =
 
@@ -66,6 +70,16 @@ Yes. The plugin reads the page description and focus keyword from both, if insta
 = In which languages is it available? =
 
 English and Italian. The plugin follows your WordPress language (Settings → General, or your user profile language).
+
+== External services ==
+
+This plugin computes the Citability Score locally and works fully offline by default. It connects to an external service in only two cases, both under your control:
+
+1. Optional API key — if you enter a CitationRate API key under Settings, the plugin sends the current post's content to the CitationRate API to unlock the full audit. No key, no request.
+
+2. Optional anonymous usage statistics — if you tick the "anonymous usage statistics" checkbox (off by default), the plugin sends coarse, anonymous usage events to the CitationRate telemetry endpoint at https://citationrate-backend-production.up.railway.app/widget/telemetry. Each event contains a random install ID (a UUID generated on your site, not linked to you or your domain), the event name, a coarse bucket (e.g. content type, score band, button id), the plugin version and your site locale. It never includes your IP address, your page URLs or any page content. Disable the checkbox to stop all such requests.
+
+The service is operated by CitationRate. Terms: https://citationrate.com/ — Privacy policy: https://citationrate.com/privacy/
 
 == Screenshots ==
 
@@ -76,6 +90,10 @@ English and Italian. The plugin follows your WordPress language (Settings → Ge
 5. JSON-LD output injected into the public page source
 
 == Changelog ==
+
+= 0.4.0 =
+* New optional, opt-in anonymous usage statistics (off by default) to help improve the plugin. No IP, no URLs, no page content — see "External services".
+* Added a settings toggle and a full privacy disclosure for the above.
 
 = 0.3.2 =
 * Renamed to "CitationRate AI Visibility".
@@ -102,6 +120,9 @@ English and Italian. The plugin follows your WordPress language (Settings → Ge
 * First release: lite scorer, JSON-LD wizard, Block Editor sidebar.
 
 == Upgrade Notice ==
+
+= 0.4.0 =
+Adds an optional, off-by-default anonymous usage statistics toggle. Nothing changes unless you turn it on.
 
 = 0.3.2 =
 Renamed to CitationRate AI Visibility, plus security, i18n and validation hardening.

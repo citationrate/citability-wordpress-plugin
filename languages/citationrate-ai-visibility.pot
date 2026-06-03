@@ -824,3 +824,12 @@ msgstr ""
 msgid "Area served"
 msgstr ""
 
+msgid "Usage statistics"
+msgstr ""
+
+msgid "Help improve the plugin by sharing anonymous usage statistics"
+msgstr ""
+
+msgid "Optional and off by default. When enabled, the plugin sends a random, anonymous install ID together with coarse usage events (e.g. which content type you pick in the wizard, your score band as a range, and which buttons you click). It never sends your IP address, your page URLs or any page content, and you can turn it off at any time."
+msgstr ""
+

@@ -793,6 +793,15 @@ msgstr "es. FULL_TIME"
 msgid "What you're reviewing"
 msgstr "Cosa recensisci"
 
+msgid "Usage statistics"
+msgstr "Statistiche d'uso"
+
+msgid "Help improve the plugin by sharing anonymous usage statistics"
+msgstr "Aiuta a migliorare il plugin condividendo statistiche d'uso anonime"
+
+msgid "Optional and off by default. When enabled, the plugin sends a random, anonymous install ID together with coarse usage events (e.g. which content type you pick in the wizard, your score band as a range, and which buttons you click). It never sends your IP address, your page URLs or any page content, and you can turn it off at any time."
+msgstr "Facoltativo e disattivato di default. Se attivato, il plugin invia un identificativo di installazione casuale e anonimo insieme a eventi d'uso generici (ad esempio quale tipo di contenuto scegli nel wizard, la fascia del tuo punteggio e quali pulsanti premi). Non invia mai il tuo indirizzo IP, gli URL delle tue pagine o il contenuto delle pagine, e puoi disattivarlo in qualsiasi momento."
+
 msgid "Question"
 msgstr "Domanda"
 

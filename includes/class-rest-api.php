@@ -13,6 +13,9 @@ class Rest_Api {
 
 	const NS = 'citability/v1';
 
+	// Where opt-in anonymous usage events are forwarded, server-side.
+	const TELEMETRY_ENDPOINT = 'https://citationrate-backend-production.up.railway.app/widget/telemetry';
+
 	public static function register() {
 		add_action( 'rest_api_init', array( __CLASS__, 'routes' ) );
 	}
@@ -79,6 +82,21 @@ class Rest_Api {
 				'permission_callback' => array( __CLASS__, 'can_edit_post' ),
 			)
 		);
+
+		// Opt-in anonymous usage telemetry. Same-origin route called by the
+		// editor; the handler forwards the event server-side ONLY if the site
+		// owner enabled sharing. Restricted to logged-in editors.
+		register_rest_route(
+			self::NS,
+			'/telemetry',
+			array(
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => array( __CLASS__, 'telemetry' ),
+				'permission_callback' => static function () {
+					return current_user_can( 'edit_posts' );
+				},
+			)
+		);
 	}
 
 	public static function can_edit_post( $request ) {
@@ -138,5 +156,53 @@ class Rest_Api {
 		$type    = sanitize_text_field( $request['type'] );
 		$tpl     = Json_Ld_Wizard::autopopulate_defaults( $post_id, $type );
 		return rest_ensure_response( array( 'data' => $tpl ) );
+	}
+
+	/**
+	 * Forward one anonymous usage event, server-side, ONLY when the site owner
+	 * opted in. We send a random per-install id + an allow-listed event + coarse
+	 * buckets — never any IP, URL or page content. Non-blocking fire-and-forget.
+	 */
+	public static function telemetry( $request ) {
+		$opts = get_option( Admin_Page::OPTION_KEY, array() );
+		if ( empty( $opts['share_usage'] ) ) {
+			return rest_ensure_response( array( 'ok' => false ) );
+		}
+
+		$params = $request->get_json_params();
+		$event  = isset( $params['event'] ) ? sanitize_key( $params['event'] ) : '';
+		$allowed = array( 'widget_loaded', 'wizard_opened', 'schema_selected', 'jsonld_saved', 'jsonld_removed', 'cta_clicked' );
+		if ( ! in_array( $event, $allowed, true ) ) {
+			return rest_ensure_response( array( 'ok' => false ) );
+		}
+
+		// Keep only the three coarse buckets; drop everything else.
+		$props_in = ( isset( $params['props'] ) && is_array( $params['props'] ) ) ? $params['props'] : array();
+		$props    = array();
+		foreach ( array( 'score_band', 'schema', 'cta' ) as $k ) {
+			if ( isset( $props_in[ $k ] ) ) {
+				$props[ $k ] = sanitize_text_field( $props_in[ $k ] );
+			}
+		}
+
+		$payload = array(
+			'site_id'        => Admin_Page::site_id(),
+			'event'          => $event,
+			'props'          => $props,
+			'plugin_version' => CITABILITY_SCORE_VERSION,
+			'locale'         => get_locale(),
+		);
+
+		wp_remote_post(
+			self::TELEMETRY_ENDPOINT,
+			array(
+				'timeout'  => 2,
+				'blocking' => false,
+				'headers'  => array( 'Content-Type' => 'application/json' ),
+				'body'     => wp_json_encode( $payload ),
+			)
+		);
+
+		return rest_ensure_response( array( 'ok' => true ) );
 	}
 }
